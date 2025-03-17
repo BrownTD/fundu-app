@@ -1,14 +1,14 @@
 # Fundu Crowd Funding App
 A mobile first crowdfunding platform designed to empower college campus organizations by connecting them with donors and simplifying fundraising efforts.
 
-Table of Contents
+# Table of Contents
 
-Features
-Tech Stack
-Project Structure
-Setup Instructions
-Deployment
-Contributors
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Setup Instructions](#setup-instructions)
+- [Deployment](#deployment)
+- [Contributors](#contributors)
 
 # Features
 
@@ -21,16 +21,17 @@ Secure backend APIs for managing data and business logic
 
 #Tech Stack
 
-Layer	           Technology
-Frontend	       React Native
-Backend	         Python (Django)
-Database	       MySQL
-Authentication	 Firebase Authentication
-Payment	         Stripe 
-Cloud Hosting	AWS (EC2, RDS, S3)
+| **Layer**        | **Technology**                |
+|------------------|-------------------------------|
+| Frontend         | React Native                  |
+| Backend          | Python (Django)               |
+| Database         | MySQL                         |
+| Authentication   | Firebase Authentication       |
+| Payment          | Stripe                        |
+| Cloud Hosting    | AWS (EC2, RDS, S3)            |
 
-# Project Structure
-
+## Project Structure
+```
 campus-crowdfund-app/
 ├── frontend/                 # React Native app
 │   ├── assets/               # Images, fonts, etc.
@@ -49,3 +50,4 @@ campus-crowdfund-app/
 ├── aws/                      # Deployment guides and scripts
 ├── docs/                     # Documentation
 └── tests/                    # Test cases for frontend/backend
+```
