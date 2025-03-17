@@ -19,7 +19,7 @@ Donor Page for donor interaction and contributions
 QR Code Donation Page for in-person donations
 Secure backend APIs for managing data and business logic
 
-#Tech Stack
+# Tech Stack
 
 | **Layer**        | **Technology**                |
 |------------------|-------------------------------|
