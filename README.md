@@ -6,6 +6,8 @@ A mobile first crowdfunding platform designed to empower college campus organiza
 - [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
+- [Frontend](#Frontend)
+- [Backend](#Backend)
 - [Setup Instructions](#setup-instructions)
 - [Deployment](#deployment)
 - [Contributors](#contributors)
@@ -50,6 +52,8 @@ fundu_app/
 ├── docs/                     # Documentation
 └── tests/                    # Test cases for frontend/backend
 ```
+## Frontend
+## Backend
 ## Deployment 
 (AWS RDS MySQL Configuration)
 
