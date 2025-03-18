@@ -47,7 +47,28 @@ fundu_app/
 │   │   └── utils/            # Utility functions (e.g., QR code generator)
 │   └── run.py
 ├── database/                 # SQL schema files
-├── aws/                      # Deployment guides and scripts
 ├── docs/                     # Documentation
 └── tests/                    # Test cases for frontend/backend
 ```
+## Deployment (AWS RDS MySQL Configuration)
+
+### Overview
+We configured an AWS RDS instance to host our MySQL database for the `fundu_db` project. This instance is connected to our Django backend to handle data storage for campaigns, donations, and users.
+
+### AWS Configuration Steps
+1. **Created AWS RDS Instance**:
+   - Chose MySQL as the database engine.
+   - Set up automated backups with a retention period of 7 days.
+   - Configured storage to automatically scale based on usage.
+
+2. **Security Group Configuration**:
+   - Created an inbound rule for port 3306 (MySQL) to allow inbound traffic from the IP address of the EC2 instance.
+
+3. **Public Access**:
+   - Ensured the RDS instance is publicly accessible to allow external connections.
+
+### Security Configurations
+- Inbound rule for MySQL on port 3306:
+  - Allowed traffic from the EC2 instance's security group.
+
+### Database Configuration in Django
