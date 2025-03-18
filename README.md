@@ -61,15 +61,36 @@ We configured an AWS RDS instance to host our MySQL database for the `fundu_db` 
    - Chose MySQL as the database engine.
    - Set up automated backups with a retention period of 7 days.
    - Configured storage to automatically scale based on usage.
+   - Set the instance to be publicly accessible so that it can be reached from our development environment.
 
 2. **Security Group Configuration**:
    - Created an inbound rule for port 3306 (MySQL) to allow inbound traffic from the IP address of the EC2 instance.
 
 3. **Public Access**:
-   - Ensured the RDS instance is publicly accessible to allow external connections.
+   - We edited the inbound rules of the RDS instance’s security group to allow traffic on port 3306.
+	- For testing purposes, we temporarily allowed connections from anywhere (0.0.0.0/0) and from our EC2 instance’s security group. Later, this will be tightened to only include trusted IP addresses.
+
+4. Schema Import:
+   - Using mysqldump and our schema.sql file, we successfully imported our entire database schema (tables and relationships) into the RDS instance.
+	- This confirms that our table structures (for users, campaigns, donations, organizations, transactions, and organization members) are set up correctly on AWS.
 
 ### Security Configurations
-- Inbound rule for MySQL on port 3306:
-  - Allowed traffic from the EC2 instance's security group.
+   - Inbound rule for MySQL on port 3306:
+   - Allowed traffic from the EC2 instance's security group.
 
 ### Database Configuration in Django
+   - Django backend is configured to connect to the AWS RDS MySQL instance by updating the DATABASES setting in settings.py as follows:
+```
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'fundu_db',
+        'USER': 'admin',
+        'PASSWORD': '**********', 
+        'HOST': 'fundu-db.cvkc6kumstw5.us-east-2.rds.amazonaws.com',
+        'PORT': '3306',
+    }
+}
+```
+   - This configuration allows our Django app to interact seamlessly with the cloud-hosted database.
+	- Once the settings are updated, running python manage.py migrate applies our database migrations to the AWS RDS instance.
