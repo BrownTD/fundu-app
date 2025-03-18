@@ -53,6 +53,35 @@ fundu_app/
 └── tests/                    # Test cases for frontend/backend
 ```
 ## Frontend
+1. assets/
+Contains all the static assets used in the app, including images, fonts, and media files.
+
+- Images: Contains logos, icons, background images, etc. 
+- Fonts: Includes custom fonts.
+
+2. components/
+Holds reusable UI components that are used across different screens. This promotes code reusability, modularity, and maintains consistency in UI design.
+
+Example components:
+- Button.js: A custom button component with reusable styles and functionality.
+
+3. screens/
+Contains the main screens of the app. Each screen represents a view or section of the app, such as onboarding, campaign details, user profile, etc.
+
+Example screens:
+- Profile.js: Displays the user profile and allows the user to edit their information.
+- Search.js: A screen that allows users to search for campaigns, causes, or other fundraising events.
+- DonatePayScreen.js: A screen that facilitates donation transactions or payment processing for users.
+
+4. navigation/
+Handles the **navigation setup** of the app using React Navigation, which defines how users can transition between different screens.
+
+5. services/
+Contains logic to interact with external services, such as **Firebase** for user authentication or any third-party APIs (e.g., for donations, campaigns, etc.).
+
+6. App.js
+The main entry point for the React Native app. It sets up the root component, defines global context or state providers, and configures the main navigation stack. It also integrates the primary components of the app.
+
 ## Backend
 ## Deployment 
 (AWS RDS MySQL Configuration)
