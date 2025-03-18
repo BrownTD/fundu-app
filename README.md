@@ -50,7 +50,8 @@ fundu_app/
 ├── docs/                     # Documentation
 └── tests/                    # Test cases for frontend/backend
 ```
-## Deployment (AWS RDS MySQL Configuration)
+## Deployment 
+(AWS RDS MySQL Configuration)
 
 ### Overview
 We configured an AWS RDS instance to host our MySQL database for the `fundu_db` project. This instance is connected to our Django backend to handle data storage for campaigns, donations, and users.
