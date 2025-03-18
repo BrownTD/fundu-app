@@ -32,7 +32,7 @@ Secure backend APIs for managing data and business logic
 
 ## Project Structure
 ```
-campus-crowdfund-app/
+fundu_app/
 ├── frontend/                 # React Native app
 │   ├── assets/               # Images, fonts, etc.
 │   ├── components/           # Reusable UI components
