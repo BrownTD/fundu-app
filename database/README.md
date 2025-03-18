@@ -9,6 +9,7 @@ This folder contains all database-related files for the **Fundu App** project. B
    - **Usage:** To set up the database, execute the commands in this file using a MySQL client.
 
 ### 2. **`fundu_eer.png`**
+![EER Diagram](eer_diagram.png)
    - This image provides a visual representation of the **Entity-Relationship Diagram (ERD)** for the Fundu App database.
    - **Usage:** This diagram helps visualize the relationships between the various tables in the database. You can use it as a reference when working with the database schema.
 
