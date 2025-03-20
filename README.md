@@ -1,4 +1,4 @@
-# Fundu Crowd Funding App
+# FundU Crowd Funding App
 A mobile first crowdfunding platform designed to empower college campus organizations by connecting them with donors and simplifying fundraising efforts.
 
 # Table of Contents
