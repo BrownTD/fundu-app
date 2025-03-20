@@ -80,7 +80,7 @@ fundu-app/
    - Sets up the root component, defines global context or state providers (e.g., user context), and configures the main navigation stack.
    - Integrates the primary components and ensures proper navigation flow within the app.
 
-## Backend
-## Deployment Guides
+# Backend
+# Deployment Guides
 - [AWS RDS MySQL Setup](aws/SQL-RDS-Deployment.md)
 - [Django Backend Deployment on AWS](aws/Django-Deployment-README.md)
