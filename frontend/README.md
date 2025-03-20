@@ -37,13 +37,10 @@ This section outlines the pseudocode for implementing buttons such as Next, Get 
 ```
 📌 Notes:
 
-The onPress function handles user interactions.
-
-The title property sets the button's text.
-
-The color property customizes the button appearance.
-
-The accessibilityLabel enhances screen reader support.
+- The onPress function handles user interactions.
+- The title property sets the button's text.
+- The color property customizes the button appearance.
+- The accessibilityLabel enhances screen reader support.
 
 This ensures buttons are user-friendly, accessible, and function as expected within the app. 🚀
 
