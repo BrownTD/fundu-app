@@ -9,7 +9,7 @@ A mobile first crowdfunding platform designed to empower college campus organiza
 - [Frontend](#Frontend)
 - [Backend](#Backend)
 - [Setup Instructions](#setup-instructions)
-- [Deployment](#deployment)
+- [Deployment Guides](#deployment)
 - [Contributors](#contributors)
 
 # Features
@@ -81,7 +81,6 @@ fundu-app/
    - Integrates the primary components and ensures proper navigation flow within the app.
 
 ## Backend
-## Deployment 
 ## Deployment Guides
 - [AWS RDS MySQL Setup](aws/SQL-RDS-Deployment.md)
 - [Django Backend Deployment on AWS](aws/Django-Deployment-README.md)
