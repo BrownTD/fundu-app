@@ -21,18 +21,26 @@ npm install
 ```
 This will install all necessary dependencies listed in frontend/package.json.
 
-## Psuedocode for Frontend Components: 
-DEFINE Button Component
-  SET onPressHandler = FUNCTION (Executes when button is tapped)
-  SET title = "Button Text" (Defines the text inside the button)
-  SET color = "Button Color" (Optional: Changes button color)
-  SET accessibilityLabel = "Description for Accessibility"
+Psuedocode for Frontend Components:
 
-CREATE Button
-  ASSIGN onPress event to onPressHandler
-  DISPLAY title as button text
-  APPLY color style if specified
-  SET accessibilityLabel for screen readers
+📌 Pseudocode: Button Implementation
 
-END Button Component
+This section outlines the pseudocode for implementing buttons such as Next, Get Started, Continue, etc. in a React Native application.
+
+📝 Pseudocode
+
+🔧 Example Code:
+
+📌 Notes:
+
+The onPress function handles user interactions.
+
+The title property sets the button's text.
+
+The color property customizes the button appearance.
+
+The accessibilityLabel enhances screen reader support.
+
+This ensures buttons are user-friendly, accessible, and function as expected within the app. 🚀
+
 
