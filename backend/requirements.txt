@@ -1,0 +1,28 @@
+# Core Django framework
+Django>=5.1.7
+
+# Django REST framework for building APIs
+djangorestframework
+
+# JWT authentication (access & refresh tokens)
+djangorestframework-simplejwt
+
+# Allows cross-origin requests (CORS) for frontend/backend communication
+django-cors-headers
+
+# Official MySQL database adapter for Django
+mysqlclient
+
+# Alternative MySQL connector (use if mysqlclient fails)
+PyMySQL
+
+# Loads environment variables from .env file
+python-dotenv
+
+# Secure password hashing for user authentication
+bcrypt
+
+'''
+/Run in backend virtual environment to install these dependencies
+pip install -r requirements.txt
+'''
