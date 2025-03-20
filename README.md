@@ -9,7 +9,7 @@ A mobile first crowdfunding platform designed to empower college campus organiza
 - [Frontend](#Frontend)
 - [Backend](#Backend)
 - [Setup Instructions](#setup-instructions)
-- [Deployment Guides](#deployment)
+- [Deployment Guides](#deployment-guides)
 - [Contributors](#contributors)
 
 # Features
