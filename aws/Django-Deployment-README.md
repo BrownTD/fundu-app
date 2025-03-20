@@ -70,7 +70,7 @@ This document outlines the steps we followed to deploy the Django backend for th
      ```bash
      cd ~
      git clone https://github.com/BrownTD/fundu-app.git
-     cd my/local/repo
+     cd fundu-app/backend
      ```
 
 2. **Create and Activate Virtual Environment**:
