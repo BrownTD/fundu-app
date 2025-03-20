@@ -27,3 +27,21 @@ This folder contains all database-related files for the **Fundu App** project. B
 
 3. **View the schema:**
    - To better understand the relationships between tables, refer to the `fundu_eer.png` for a graphical view of the schema.
+  
+### Database Configuration in Django
+   - Django backend is configured to connect to the AWS RDS MySQL instance by updating the DATABASES setting in settings.py as follows:
+```
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'fundu_db',
+        'USER': 'admin',
+        'PASSWORD': '**********', 
+        'HOST': 'fundu-db.cvkc6kumstw5.us-east-2.rds.amazonaws.com',
+        'PORT': '3306',
+    }
+}
+```
+   - This configuration allows our Django app to interact seamlessly with the cloud-hosted database.
+	- Once the settings are updated, running python manage.py migrate applies our database migrations to the AWS RDS instance.
+
