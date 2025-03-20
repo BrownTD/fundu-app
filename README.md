@@ -109,19 +109,3 @@ We configured an AWS RDS instance to host our MySQL database for the `fundu_db` 
    - Inbound rule for MySQL on port 3306:
    - Allowed traffic from the EC2 instance's security group.
 
-### Database Configuration in Django
-   - Django backend is configured to connect to the AWS RDS MySQL instance by updating the DATABASES setting in settings.py as follows:
-```
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'fundu_db',
-        'USER': 'admin',
-        'PASSWORD': '**********', 
-        'HOST': 'fundu-db.cvkc6kumstw5.us-east-2.rds.amazonaws.com',
-        'PORT': '3306',
-    }
-}
-```
-   - This configuration allows our Django app to interact seamlessly with the cloud-hosted database.
-	- Once the settings are updated, running python manage.py migrate applies our database migrations to the AWS RDS instance.
