@@ -20,3 +20,19 @@ Install the frontend dependencies:
 npm install
 ```
 This will install all necessary dependencies listed in frontend/package.json.
+
+## Psuedocode for Frontend Components: 
+DEFINE Button Component
+  SET onPressHandler = FUNCTION (Executes when button is tapped)
+  SET title = "Button Text" (Defines the text inside the button)
+  SET color = "Button Color" (Optional: Changes button color)
+  SET accessibilityLabel = "Description for Accessibility"
+
+CREATE Button
+  ASSIGN onPress event to onPressHandler
+  DISPLAY title as button text
+  APPLY color style if specified
+  SET accessibilityLabel for screen readers
+
+END Button Component
+
