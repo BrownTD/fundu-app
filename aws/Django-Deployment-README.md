@@ -72,8 +72,11 @@ This document outlines the steps we followed to deploy the Django backend for th
      git clone https://github.com/BrownTD/fundu-app.git
      cd fundu-app/backend
      ```
+2. # Install system dependencies globally on your EC2 instance
+sudo apt update
+sudo apt install pkg-config libmysqlclient-dev
 
-2. **Create and Activate Virtual Environment**:
+3. **Create and Activate Virtual Environment**:
    - We create a virtual environment and activate it:
 
      ```bash
@@ -81,7 +84,7 @@ This document outlines the steps we followed to deploy the Django backend for th
      source venv/bin/activate
      ```
 
-3. **Install Required BACKEND Packages**:
+4. **Install Required BACKEND Packages**:
    - We install the project dependencies using `pip` (/backend/requirements.txt)
    - Make sure to naviagte to backend folder in terminal before installing
 
@@ -89,33 +92,40 @@ This document outlines the steps we followed to deploy the Django backend for th
      pip install -r requirements.txt
      ```
 
-4. **Set Up Django for Production**:
+5. **Set Up Django for Production**:
    - We update `settings.py` in Django for production deployment:
      - Set `DEBUG = False`.
-     - Configure `ALLOWED_HOSTS` to include the EC2 public DNS (e.g., `[ec2-3-145-105-183.us-east-2.compute.amazonaws.com]`).
-     - Configure `DATABASES` to connect to the RDS MySQL instance, using the RDS credentials.
+     - Configure `ALLOWED_HOSTS` to include the EC2 public DNS (e.g., `['ec2-3-145-105-183.us-east-2.compute.amazonaws.com']`).
+     - Configure `DATABASES` to connect to the RDS MySQL instance, using the RDS credentials (.env file).
 
      ```python
-     DATABASES = {
-         'default': {
-             'ENGINE': 'django.db.backends.mysql',
-             'NAME': 'fundu_db',
-             'USER': 'admin',
-             'PASSWORD': '********',
-             'HOST': 'fundu-db.cvkc6kumstw5.us-east-2.rds.amazonaws.com',
-             'PORT': '3306',
-         }
-     }
+     # DATABASES configuration (from .env file)
+      DATABASES = {
+       'default': {
+           'ENGINE': config('DB_ENGINE'),
+           'NAME': config('DB_NAME'),
+           'USER': config('DB_USER'),
+           'PASSWORD': config('DB_PASSWORD'),
+           'HOST': config('DB_HOST'),
+           'PORT': config('DB_PORT', default=3306, cast=int),
+        }
+      }
      ```
 
-5. **Run Django Migrations**:
+6. **Run Django Migrations**:
    - We apply migrations to set up the database schema:
 
      ```bash
      python manage.py migrate
      ```
 
-6. **Collect Static Files**:
+7. Run Gunicorn to directly to test that everything is working:
+  ```bash
+cd ~/fundu-app/backend  # Navigate to your backend folder (where manage.py is)
+gunicorn --bind 0.0.0.0:8000 fundu_backend.wsgi:application
+   ```
+- This command tells Gunicorn to listen on all IPs (0.0.0.0) and port 8000.
+8. **Collect Static Files**:
    - We collect static files for the frontend to be served by Nginx:
 
      ```bash
@@ -135,30 +145,42 @@ This document outlines the steps we followed to deploy the Django backend for th
      - We edit the Nginx configuration file to add a new site for our project.
 
      ```bash
-     sudo nano /etc/nginx/sites-available/fundu
+     sudo nano /etc/nginx/sites-available/fundu-app
      ```
 
      - We add the following configuration:
 
      ```nginx
      server {
-         listen 80;
-         server_name ec2-3-145-105-183.us-east-2.compute.amazonaws.com;
+       listen 80;
+       server_name 3.145.105.183;  # EC2 Public IP 
 
-         location / {
-             proxy_pass http://127.0.0.1:8000;  # Django runs on port 8000
-             proxy_set_header Host $host;
-             proxy_set_header X-Real-IP $remote_addr;
-             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-             proxy_set_header X-Forwarded-Proto $scheme;
-         }
-     }
+       location / {
+           proxy_pass http://unix:/home/ubuntu/fundu-app/backend/fundu-app.sock;
+           proxy_set_header Host $host;
+           proxy_set_header X-Real-IP $remote_addr;
+           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+           proxy_set_header X-Forwarded-Proto $scheme;
+       }
+
+       location /static/ {
+           alias /home/ubuntu/fundu-app/backend/static/;
+       }
+
+       location /media/ {
+        alias /home/ubuntu/fundu-app/backend/media/;
+       }
+
+       error_log  /var/log/nginx/fundu-app_error.log;
+       access_log /var/log/nginx/fundu-app_access.log;
+      }
+
      ```
 
      - We enable the site and restart Nginx:
 
      ```bash
-     sudo ln -s /etc/nginx/sites-available/fundu /etc/nginx/sites-enabled
+     sudo ln -s /etc/nginx/sites-available/fundu-app /etc/nginx/sites-enabled
      sudo systemctl restart nginx
      ```
 
