@@ -79,6 +79,47 @@ fundu-app/
    - The main entry point for the React Native app.
    - Sets up the root component, defines global context or state providers (e.g., user context), and configures the main navigation stack.
    - Integrates the primary components and ensures proper navigation flow within the app.
+  
+Navigate to the project folder:
+
+- cd fundu-app
+
+Install dependencies:
+
+- npm install
+
+Create a new Expo app:
+
+- npx create-expo-app@latest
+
+Install the following dependencies:
+
+npm install @react-navigation/native
+npm install @react-navigation/stack
+npm install react-native-screens react-native-safe-area-context react-native-gesture-handler react-native-reanimated react-native-vector-icons
+
+Run the project (for Expo):
+
+- npx expo start
+
+Dependencies
+
+The following packages are used in this project:
+
+Expo:
+
+create-expo-app@latest
+React Navigation:
+
+@react-navigation/native
+@react-navigation/stack
+React Native packages:
+
+react-native-screens
+react-native-safe-area-context
+react-native-gesture-handler
+react-native-reanimated
+react-native-vector-icons
 
 # Backend
 # Deployment Guides
