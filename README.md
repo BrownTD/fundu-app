@@ -80,7 +80,7 @@ fundu-app/
    - Sets up the root component, defines global context or state providers (e.g., user context), and configures the main navigation stack.
    - Integrates the primary components and ensures proper navigation flow within the app.
 
-## **Installation**
+## ** Expo Installation**
 1. Navigate to the project folder:
 
 - cd fundu-app
