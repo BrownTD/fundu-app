@@ -119,13 +119,7 @@ sudo apt install pkg-config libmysqlclient-dev
      python manage.py migrate
      ```
 
-7. Run Gunicorn to directly to test that everything is working:
-  ```bash
-cd ~/fundu-app/backend  # Navigate to your backend folder (where manage.py is)
-gunicorn --bind 0.0.0.0:8000 fundu_backend.wsgi:application
-   ```
-- This command tells Gunicorn to listen on all IPs (0.0.0.0) and port 8000.
-8. **Collect Static Files**:
+7. **Collect Static Files**:
    - We collect static files for the frontend to be served by Nginx:
 
      ```bash
@@ -153,7 +147,8 @@ gunicorn --bind 0.0.0.0:8000 fundu_backend.wsgi:application
      ```nginx
      server {
        listen 80;
-       server_name 3.145.105.183;  # EC2 Public IP 
+       server_name 3.145.105.183;  # EC2 Public IP
+        #proxy_pass http://127.0.0.1:8000;  # Bind to port 8000 instead of a Unix socket
 
        location / {
            proxy_pass http://unix:/home/ubuntu/fundu-app/backend/fundu-app.sock;
@@ -183,7 +178,8 @@ gunicorn --bind 0.0.0.0:8000 fundu_backend.wsgi:application
      sudo ln -s /etc/nginx/sites-available/fundu-app /etc/nginx/sites-enabled
      sudo systemctl restart nginx
      ```
-
+  Our application should now be accessible via the EC2 instance’s public DNS at port 80.
+  
 2. **Start the Django Development Server**:
    - We run the Django development server to test it:
 
@@ -191,16 +187,7 @@ gunicorn --bind 0.0.0.0:8000 fundu_backend.wsgi:application
      python manage.py runserver 0.0.0.0:8000
      ```
 
-   Our application should now be accessible via the EC2 instance’s public DNS at port 80.
-
 ### Step 5: Set Up Gunicorn for Production
-
-1. **Install Gunicorn**:
-   - We install Gunicorn in the virtual environment:
-
-     ```bash
-     pip install gunicorn
-     ```
 
 2. **Run Gunicorn**:
    - We run Gunicorn to serve the Django app:
@@ -212,13 +199,3 @@ gunicorn --bind 0.0.0.0:8000 fundu_backend.wsgi:application
    We can now configure Nginx to reverse proxy to Gunicorn for better production performance.
 
 ---
-
-## Additional Configurations
-
-### Step 6: Set Up SSL (Optional for HTTPS and Production)
-
-1. **Install Certbot**:
-   - We install Certbot for managing SSL certificates.
-
-   ```bash
-   sudo apt install certbot python3-certbot-nginx
