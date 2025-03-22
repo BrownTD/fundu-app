@@ -120,11 +120,22 @@ If our access token expires, we can refresh it using:
 
 ![image](https://github.com/user-attachments/assets/3be02f7a-ea19-4729-9698-5b01cc4d5398)
 
-## Git and Deployment 
+## 5. Git and Deployment 
 
 ### Ignore Sensitive Files
 
 Add sensitive files like the (.env) to .gitignore
+
+### Push to Github
+
+Commands:
+
+git add .
+
+git commit -m "Initial backend setup"
+
+git push origin main
+
 
 
 
