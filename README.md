@@ -1,6 +1,9 @@
 # FundU Crowd Funding App
 A mobile first crowdfunding platform designed to empower college campus organizations by connecting them with donors and simplifying fundraising efforts. The platform allows student organizations to create fundraiser campaigns, streamline donation collection and visualize campaign analytics.
 
+![FundU Logo](/docs/images/FundU.png)
+
+
 
 # Table of Contents
 
@@ -82,9 +85,15 @@ Secure backend APIs for managing data and business logic
 
 # Contributors
 
-- [Nevyn Brown](https://github.com/BrownTD) – Project Lead, Full Stack Developer, AWS Infrastructure, Database Admin
-- [Ro Musassa](https://github.com/24ro) – Backend Developer
-- [Monique Gilmore](https://github.com/monique3443) – Frontend Developer
-- [Morgan Simmons](https://github.com/morgan0paige) – Frontend Developer
+- [Nevyn Brown](https://github.com/BrownTD)
+    - Project Lead, Full Stack Developer, AWS Infrastructure, Database Admin
+- [Ro Musassa](https://github.com/24ro)
+    -  Backend Developer
+- [Monique Gilmore](https://github.com/monique3443)
+    - Frontend Developer
+- [Morgan Simmons](https://github.com/morgan0paige)
+    - Frontend Developer
+  
+![Development Team](/docs/images/DevelopmentTeam.png)
 
 
