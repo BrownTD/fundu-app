@@ -46,32 +46,78 @@ Secure backend APIs for managing data and business logic
 ├── backend
 │   ├── README.md
 │   ├── app
+│   │   ├── __pycache__
+│   │   ├── admin.py
+│   │   ├── migrations
+│   │   ├── models.py
+│   │   ├── serializers.py
+│   │   ├── templates
+│   │   ├── urls.py
+│   │   └── views.py
 │   ├── fundu_backend
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   ├── asgi.py
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   └── wsgi.py
 │   ├── manage.py
 │   ├── requirements.txt
 │   └── venv
+│       ├── bin
+│       ├── lib
+│       └── pyvenv.cfg
 ├── database
 │   ├── README.md
 │   ├── eer_diagram.png
 │   ├── schema.sql
 │   └── seed_and_update.sql
+├── docs
+│   ├── FundU_App_Demo.mp4
+│   ├── images
+│   │   ├── DevelopmentTeam.png
+│   │   └── FundU.png
+│   └── planning
+│       ├── BOFA Code-A-Thon Project Outline-2.pptx
+│       └── BOFA Code-A-Thon Project Outline.docx
 ├── frontendV2
 │   ├── README.md
 │   ├── app
+│   │   ├── (tabs)
+│   │   ├── +not-found.tsx
+│   │   └── _layout.tsx
 │   ├── app.json
 │   ├── assets
+│   │   ├── fonts
+│   │   └── images
 │   ├── components
+│   │   ├── Collapsible.tsx
+│   │   ├── ExternalLink.tsx
+│   │   ├── HapticTab.tsx
+│   │   ├── HelloWave.tsx
+│   │   ├── ParallaxScrollView.tsx
+│   │   ├── ThemedText.tsx
+│   │   ├── ThemedView.tsx
+│   │   ├── __tests__
+│   │   └── ui
 │   ├── constants
+│   │   └── Colors.ts
 │   ├── expo-env.d.ts
 │   ├── frontend_structure.txt
 │   ├── hooks
+│   │   ├── useColorScheme.ts
+│   │   ├── useColorScheme.web.ts
+│   │   └── useThemeColor.ts
 │   ├── package-lock.json
 │   ├── package.json
 │   ├── scripts
+│   │   └── reset-project.js
 │   └── tsconfig.json
+├── project_structure.txt
 └── tests
     ├── test_backend.py
     └── test_frontend.js
+
 ```
 # Frontend
 - [Front Setup](frontendV2/README.md)
