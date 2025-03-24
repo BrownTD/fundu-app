@@ -1,5 +1,0 @@
-{
-  "dependencies": {
-    "@stripe/stripe-react-native": "^0.43.0"
-  }
-}
