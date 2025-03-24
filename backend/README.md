@@ -20,27 +20,28 @@ Before starting, ensure the following are installed:
 
 ## 1. Clone the Repository Onto a Local Device
 
-git clone https://github.com/BrownTD/fundu-app.git
+`git clone https://github.com/BrownTD/fundu-app.git`
 
 Then we ran this command to step into the backend folder
 
-cd fundu-app/backend
+`cd fundu-app/backend`
 
 ### Create virtual environment in the backend folder
-python3 -m venv venv
 
-source venv/bin/activate  # macOS/Linux
+`python3 -m venv venv`
 
-venv\Scripts\activate     # Windows (PowerShell)
+`source venv/bin/activate  # macOS/Linux`
+
+`venv\Scripts\activate     # Windows (PowerShell)`
 
 ### Install required dependencies
-pip install -r requirements.txt
+`pip install -r requirements.txt`
 
 ## 2. Configure MySQL Database
 
 ### We verified our MySQL connection using, this command
 
-mysql -h <DB_HOST> -P 3306 -u <DB_USER> -p
+`mysql -h <DB_HOST> -P 3306 -u <DB_USER> -p`
 
 ### Update settings.py in the backend to use MySQL 
 We updated fundu_backend/settings.py
@@ -52,29 +53,29 @@ We updated fundu_backend/settings.py
 
 Commands:
 
-python manage.py makemigrations app
+`python manage.py makemigrations app`
 
-python manage.py migrate
+`python manage.py migrate`
 
 ### Make sure everything is working and check if data exists in our MySQL database
 
 Commands: 
 
-python manage.py shell
+`python manage.py shell`
 
 (In the shell)
-
+```
 from app.models import Campaign
 
 print(Campaign.objects.all()) 
-
+```
 ## 3. Create a Superuser 
 
 ### We created a superuser to access the admin panel
 
 Commands: 
 
-python manage.py createsuperuser
+`python manage.py createsuperuser`
 
 ### Register models in admin.py
 
@@ -90,7 +91,7 @@ To manage models in the admin panel, we register them in app/admin.py
 
 Command: 
 
-python manage.py runserver
+`python manage.py runserver`
 
 Your admin panel will be available at a link similar to this,
 
@@ -129,13 +130,13 @@ Add sensitive files like the (.env) to .gitignore
 ### Push to Github
 
 Commands:
-
+```
 git add .
 
 git commit -m "Initial backend setup"
 
 git push origin main
-
+```
 
 
 
