@@ -7,7 +7,6 @@ A modern crowdfunding application frontend built with React (using TSX) and Expo
 - [Project Structure](#project-structure)
 - [Setup](#setup)
 - [Features](#features)
-- [Usage](#usage)
 - [Challenges](#challenges)
 - [Dependencies](#dependencies)
 - [License](#license)
@@ -141,13 +140,54 @@ const MyComponent = () => {
 
 export default MyComponent;
 ```
-
+# Dependecies
 The project is managed using npm. Some key dependencies include:
 
 - React & React Native: For building the user interface.
 - Expo: For streamlined cross-platform development.
 - TypeScript: Provides static typing for improved code quality.
 
+## ** Expo Installation**
+1. Navigate to the project folder:
+
+- cd fundu-app
+
+2. Install dependencies:
+
+- npm install
+
+3. Create a new Expo app:
+
+- npx create-expo-app@latest
+
+4. Install the following dependencies:
+```
+npm install @react-navigation/native
+npm install @react-navigation/stack
+npm install react-native-screens react-native-safe-area-context react-native-gesture-handler react-native-reanimated react-native-vector-icons
+```
+5. Run the project (for Expo):
+```
+- npx expo start
+```
+
+The following packages are used in this project:
+
+### Expo:
+
+- create-expo-app@latest
+- React Navigation:
+ - @react-navigation/native
+ - @react-navigation/stack
+
+### React Native packages:
+
+- react-native-screens
+- react-native-safe-area-context
+- react-native-gesture-handler
+- react-native-reanimated
+- react-native-vector-icons
+- 
 Install all dependencies with:
 ```
 npm install
