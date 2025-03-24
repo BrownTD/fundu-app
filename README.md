@@ -32,7 +32,7 @@ Secure backend APIs for managing data and business logic
 | Payment          | Stripe                        |
 | Cloud Hosting    | AWS (EC2, RDS, S3)            |
 
-## Project Structure
+# Project Structure
 ```
 .
 ├── LICENSE
