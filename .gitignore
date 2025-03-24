@@ -1,2 +1,5 @@
 .DS_Store
 .env
+frontendV2/node_modules/
+frontendV2/.expo/
+project_structure.txt
