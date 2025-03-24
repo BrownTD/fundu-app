@@ -6,9 +6,9 @@ A mobile first crowdfunding platform designed to empower college campus organiza
 - [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
-- [Frontend](#Frontend)
-- [Backend](#Backend)
-- [AWS Deployment Guides](#deployment-guides)
+- [Frontend](#frontend)
+- [Backend](#backend)
+- [AWS Deployment Guides](#aws-deployment-guides)
 - [Contributors](#contributors)
 
 # Features
@@ -70,12 +70,13 @@ Secure backend APIs for managing data and business logic
     ├── test_backend.py
     └── test_frontend.js
 ```
-
+# Frontend
+- [Front Setup](frontendV2/README.md)
 # Backend
-- [AWS RDS MySQL Setup](aws/SQL-RDS-Deployment.md)
+- [Backend Setup](backend/README.md)
   
 # AWS Deployment Guides
-- [AWS RDS MySQL Setup](aws/SQL-RDS-Deployment.md)
+- [AWS RDS MySQL Deployment](aws/SQL-RDS-Deployment.md)
 - [Django Backend Deployment on AWS](aws/Django-Deployment-README.md)
 
 # Contributors
