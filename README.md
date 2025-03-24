@@ -120,7 +120,7 @@ Secure backend APIs for managing data and business logic
 
 ```
 # Frontend
-- [Front Setup](frontendV2/README.md)
+- [Frontend Setup](frontendV2/README.md)
 # Backend
 - [Backend Setup](backend/README.md)
   
