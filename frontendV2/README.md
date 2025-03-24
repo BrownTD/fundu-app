@@ -140,7 +140,7 @@ const MyComponent = () => {
 
 export default MyComponent;
 ```
-# Dependecies
+# Dependencies
 The project is managed using npm. Some key dependencies include:
 
 - React & React Native: For building the user interface.
