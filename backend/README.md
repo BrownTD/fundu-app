@@ -17,6 +17,72 @@ Before starting, ensure the following are installed:
 
 ---
 
+# Backend Structure
+```
+.
+├── README.md
+├── app
+│   ├── __pycache__
+│   │   ├── admin.cpython-311.pyc
+│   │   ├── models.cpython-311.pyc
+│   │   ├── serializers.cpython-311.pyc
+│   │   ├── urls.cpython-311.pyc
+│   │   └── views.cpython-311.pyc
+│   ├── admin.py
+│   ├── migrations
+│   │   ├── 0001_initial.py
+│   │   ├── 0002_remove_customuser_username.py
+│   │   ├── __init__.py
+│   │   └── __pycache__
+│   ├── models.py
+│   ├── serializers.py
+│   ├── templates
+│   │   └── homepage.html
+│   ├── urls.py
+│   └── views.py
+├── fundu_backend
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-311.pyc
+│   │   ├── settings.cpython-311.pyc
+│   │   ├── urls.cpython-311.pyc
+│   │   └── wsgi.cpython-311.pyc
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── manage.py
+├── requirements.txt
+└── venv
+    ├── bin
+    │   ├── Activate.ps1
+    │   ├── __pycache__
+    │   ├── activate
+    │   ├── activate.csh
+    │   ├── activate.fish
+    │   ├── django-admin
+    │   ├── doesitcache
+    │   ├── dotenv
+    │   ├── fixup_firestore_admin_v1_keywords.py
+    │   ├── fixup_firestore_v1_keywords.py
+    │   ├── normalizer
+    │   ├── pip
+    │   ├── pip3
+    │   ├── pip3.11
+    │   ├── pyrsa-decrypt
+    │   ├── pyrsa-encrypt
+    │   ├── pyrsa-keygen
+    │   ├── pyrsa-priv2pub
+    │   ├── pyrsa-sign
+    │   ├── pyrsa-verify
+    │   ├── python -> python3
+    │   ├── python3 -> /Users/rodrigue/anaconda3/bin/python3
+    │   ├── python3.11 -> python3
+    │   └── sqlformat
+    ├── lib
+    │   └── python3.11
+    └── pyvenv.cfg
+```
 
 ## 1. Clone the Repository Onto a Local Device
 
