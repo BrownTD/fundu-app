@@ -31,9 +31,9 @@ export default function FunduLogo({ style }: LogoProps) {
     </Svg>
   );
 }
-
-2. Styled the logo using the React Native StyleSheet
-	- Handled sizing and layout via styles.logo (not inline props):
+```
+### ✅ 2. Styled the logo using the React Native StyleSheet
+- Handled sizing and layout via styles.logo (not inline props):
 ```
 logo: {
   width: 160,
@@ -42,8 +42,8 @@ logo: {
   marginBottom: 20,
 }
 ```
-3. Imported and rendered the logo in index.tsx
-	- Import statement:
+### ✅ 3. Imported and rendered the logo in index.tsx
+- Import statement:
 ```import Logo from "@/assets/images/funduLogo";```
-	- Usage inside JSX:
+- Usage inside JSX:
 ```<Logo style={styles.logo} />```
