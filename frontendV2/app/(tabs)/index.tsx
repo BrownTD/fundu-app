@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { View, TouchableOpacity, Text, Image, StyleSheet, GestureResponderEvent } from "react-native";
 import { useNavigation } from "expo-router";
 import { useRouter } from "expo-router";
+import Logo from "@/assets/images/funduLogo";
+//import type { LogoProps } from "@/assets/images/funduLogo";
 
 export default function HomeScreen() {
   const navigation = useNavigation();
@@ -20,7 +22,7 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <Image source={require('@/assets/images/funduLogo.png')} style={styles.logo} />
+      <Logo style={styles.logo} />
       <Text style={styles.title}>Are you a donor or an organization member?</Text>
 
       <TouchableOpacity
@@ -73,9 +75,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   logo: {
-    marginTop: -35,
-    width: 160,
-    height: 160,
+    width: 210,
+    height: 210,
+    alignSelf: "center",
     marginBottom: 0,
     resizeMode: "contain",
   },
