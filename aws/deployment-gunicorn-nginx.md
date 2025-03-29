@@ -11,7 +11,7 @@ This guide documents the exact steps taken to deploy a Django backend using:
 
 ## ✅ Step 1: Install and Test Gunicorn
 
-### Install inside your virtual environment:
+### Install inside virtual environment:
 ```bash
 pip install gunicorn
 ```
@@ -118,23 +118,19 @@ sudo systemctl restart gunicorn
 ## ✅ Step 5: Domain Configuration
 
 - Domain purchased: `funduhub.com`
-- Go to your registrar (e.g. Namecheap, GoDaddy)
 - Set up an **A record**:
   - **Name**: `@`
   - **Type**: A
   - **Value**: `3.88.11.128` (EC2 public IP)
-- Optional: Add `www` A record too
+  - -  Add `www` A record too
 
 ---
 
 ## ✅ Success Confirmation
 
-You should now be able to visit:
+Visit:
 
 ```
 http://funduhub.com
 ```
 
-And see your Django backend served securely via Nginx + Gunicorn.
-
-Next step? Enable HTTPS with Certbot.
