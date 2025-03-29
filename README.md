@@ -1,4 +1,13 @@
-# FundU Crowd Funding App
+# FundU Crowdfunding App
+
+![Built with Django](https://img.shields.io/badge/backend-Django-blue)
+![Powered by React Native](https://img.shields.io/badge/frontend-React%20Native-orange)
+![Deployed on AWS](https://img.shields.io/badge/deployment-AWS-232f3e)
+![Security-Hardened](https://img.shields.io/badge/security-Fail2Ban%20%2B%20UFW-brightgreen)
+![License: All Rights Reserved](https://img.shields.io/badge/license-All%20Rights%20Reserved-red)
+
+---
+
 A mobile first crowdfunding platform designed to empower college campus organizations by connecting them with donors and simplifying fundraising efforts. The platform allows student organizations to create fundraiser campaigns, streamline donation collection and visualize campaign analytics.
 
 ![FundU Logo](./docs/images/FundU.png)
@@ -36,89 +45,75 @@ Secure backend APIs for managing data and business logic
 | Cloud Hosting    | AWS (EC2, RDS, S3)            |
 
 # Project Structure
-```
-.
-├── LICENSE
-├── README.md
-├── aws
-│   ├── Django-Deployment-README.md
-│   ├── SQL-RDS-Deployment.md
-│   └── progress.md
-├── backend
-│   ├── README.md
-│   ├── app
-│   │   ├── __pycache__
-│   │   ├── admin.py
-│   │   ├── migrations
-│   │   ├── models.py
-│   │   ├── serializers.py
-│   │   ├── templates
-│   │   ├── urls.py
-│   │   └── views.py
-│   ├── fundu_backend
-│   │   ├── __init__.py
-│   │   ├── __pycache__
-│   │   ├── asgi.py
-│   │   ├── settings.py
-│   │   ├── urls.py
-│   │   └── wsgi.py
-│   ├── manage.py
-│   ├── requirements.txt
-│   └── venv
-│       ├── bin
-│       ├── lib
-│       └── pyvenv.cfg
-├── database
-│   ├── README.md
-│   ├── eer_diagram.png
-│   ├── schema.sql
-│   └── seed_and_update.sql
-├── docs
-│   ├── FundU_App_Demo.mp4
-│   ├── images
-│   │   ├── DevelopmentTeam.png
-│   │   └── FundU.png
-│   └── planning
-│       ├── BOFA Code-A-Thon Project Outline-2.pptx
-│       └── BOFA Code-A-Thon Project Outline.docx
-├── frontendV2
-│   ├── README.md
-│   ├── app
-│   │   ├── (tabs)
-│   │   ├── +not-found.tsx
-│   │   └── _layout.tsx
-│   ├── app.json
-│   ├── assets
-│   │   ├── fonts
-│   │   └── images
-│   ├── components
-│   │   ├── Collapsible.tsx
-│   │   ├── ExternalLink.tsx
-│   │   ├── HapticTab.tsx
-│   │   ├── HelloWave.tsx
-│   │   ├── ParallaxScrollView.tsx
-│   │   ├── ThemedText.tsx
-│   │   ├── ThemedView.tsx
-│   │   ├── __tests__
-│   │   └── ui
-│   ├── constants
-│   │   └── Colors.ts
-│   ├── expo-env.d.ts
-│   ├── frontend_structure.txt
-│   ├── hooks
-│   │   ├── useColorScheme.ts
-│   │   ├── useColorScheme.web.ts
-│   │   └── useThemeColor.ts
-│   ├── package-lock.json
-│   ├── package.json
-│   ├── scripts
-│   │   └── reset-project.js
-│   └── tsconfig.json
-├── project_structure.txt
-└── tests
-    ├── test_backend.py
-    └── test_frontend.js
 
+<details>
+<summary><strong><a href="frontendV2/">frontendV2/</a> — React Native app (Expo + TypeScript)</strong></summary>
+
+```
+├── app/                     # App routes and screens
+├── assets/                  # Images, fonts, etc.
+├── components/              # Custom UI components
+├── constants/               # Shared style constants
+├── hooks/                   # Custom hooks (e.g. theming)
+├── ios/                     # iOS native files (Xcode)
+├── package.json             # Frontend dependencies
+└── tsconfig.json            # TypeScript config
+```
+</details>
+
+<details>
+<summary><strong><a href="backend/">backend/</a> — Django backend (REST API)</strong></summary>
+
+```
+├── app/                     # Core app: models, views, serializers, routes
+├── fundu_backend/           # Project settings, URLs, WSGI/ASGI
+├── manage.py                # Django CLI entry point
+└── requirements.txt         # Backend dependencies
+```
+</details>
+
+<details>
+<summary><strong><a href="aws/">aws/</a> — Deployment, DevOps, and security configuration</strong></summary>
+
+```
+├── deployment-gunicorn-nginx.md   # Production setup (EC2 + Gunicorn + Nginx)
+├── server_protection_readme.md    # Fail2Ban, UFW, SSH lockdown
+└── README.md                # AWS deployment overview
+```
+</details>
+
+<details>
+<summary><strong><a href="database/">databse/</a> — SQL schema, EER diagrams, and seed files</strong></summary>
+
+```
+├── schema.sql               # Core table schema
+├── fundu_full.sql           # Full DB dump (if included)
+└── seed_and_update.sql      # Insert/update helpers
+```
+</details>
+
+<details>
+<summary><strong><a href="docs/">docs/</a> — Internal planning docs, images, and demo media</strong></summary>
+
+```
+├── FundU_App_Demo.mp4       # Project walkthrough video
+├── images/                  # Logos, wireframes, team graphics
+└── planning/                # Hackathon slides and docs
+```
+</details>
+
+<details>
+<summary><strong><a href="tests/">test/</a> — Frontend and backend test cases</strong></summary>
+
+```
+├── test_backend.py
+└── test_frontend.js
+```
+</details>
+
+```
+├── README.md                # Main project README
+└── LICENSE                  # All Rights Reserved
 ```
 # Frontend
 - [Frontend Setup Guide](frontendV2/README.md)  
@@ -141,16 +136,17 @@ Secure backend APIs for managing data and business logic
 
 # Contributors
 
-- [Nevyn Brown](https://github.com/BrownTD)
+- ## [Nevyn Brown](https://github.com/BrownTD)
     - Project Lead
     - Full Stack Development
     - AWS Infrastructure
+    - Security Configuration
     - Database Admin
-- [Ro Musassa](https://github.com/24ro)
+- ## [Ro Musassa](https://github.com/24ro)
     -  Backend Development
-- [Monique Gilmore](https://github.com/monique3443)
+- ## [Monique Gilmore](https://github.com/monique3443)
     - Frontend Development
-- [Morgan Simmons](https://github.com/morgan0paige)
+- ## [Morgan Simmons](https://github.com/morgan0paige)
     - Frontend Development
 
 ![Development Team](./docs/images/DevelopmentTeam.png)
