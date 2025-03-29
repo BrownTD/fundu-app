@@ -48,7 +48,7 @@ Should see the padlock icon — site is now secure!
 
 ## ✅ Step 4: Test Auto-Renewal (Optional)
 
-Certbot auto-renews every 60–90 days. To test:
+Certbot auto-renews every 60–90 days. Test:
 
 ```bash
 sudo certbot renew --dry-run
