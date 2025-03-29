@@ -12,6 +12,7 @@ A mobile first crowdfunding platform designed to empower college campus organiza
 - [Frontend](#frontend)
 - [Backend](#backend)
 - [Deployment Guides](#deployment-guides)
+- [DevOps/SecOps](#devopssecops-documentation)
 - [Contributors](#contributors)
 
 # Features
@@ -120,13 +121,23 @@ Secure backend APIs for managing data and business logic
 
 ```
 # Frontend
-- [Frontend Setup Guide](frontendV2/README.md)
+- [Frontend Setup Guide](frontendV2/README.md)  
+  Step-by-step instructions for setting up the React Native frontend, including dependencies and project structure.
+
 # Backend
-- [Backend Setup Guide](backend/README.md)
-  
+- [Backend Setup Guide](backend/README.md)  
+  Django backend configuration, environment setup, and API architecture overview.
+
 # Deployment Guides
-- [Backend Deployment (Django + AWS)](aws/README.md)
-- [Production Deployment: Gunicorn + Nginx + Custom Domain](aws/deployment-gunicorn-nginx.md)
+- [Backend Deployment (Django + AWS)](aws/README.md)  
+  Guide for deploying the Django backend to AWS EC2, including environment setup and MySQL integration.
+  
+- [Production Deployment: Gunicorn + Nginx + Custom Domain](aws/deployment-gunicorn-nginx.md)  
+  Instructions for configuring Gunicorn and Nginx with HTTPS and custom domain routing.
+
+# DevOps/SecOps Documentation
+- [Server Protection Documentation](aws/server_protection_readme.md)  
+  Firewall, fail2ban, SSH lockdown, and best practices for securing an Ubuntu production server.
 
 # Contributors
 
