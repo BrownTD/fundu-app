@@ -1,0 +1,83 @@
+# Enabling HTTPS with Certbot & Let's Encrypt
+
+This guide walks you through securing your Django app with a free SSL certificate using **Certbot** and **Nginx**.
+
+---
+
+## ✅ Prerequisites
+Make sure you:
+- Have a domain name pointing to your EC2 public IP (e.g., funduhub.com)
+- Have Nginx + Gunicorn already configured and running
+- Can visit `http://yourdomain.com` and see your Django app
+
+---
+
+## ✅ Step 1: Install Certbot
+
+```bash
+sudo apt update
+sudo apt install certbot python3-certbot-nginx
+```
+
+---
+
+## ✅ Step 2: Run Certbot for Nginx
+
+Replace the domain below with your actual domain:
+
+```bash
+sudo certbot --nginx -d funduhub.com -d www.funduhub.com
+```
+
+- Certbot will detect your Nginx config and update it
+- When prompted:
+  - Choose to **redirect HTTP to HTTPS**
+  - Certbot will automatically reload Nginx with your cert installed
+
+---
+
+## ✅ Step 3: Verify HTTPS Works
+
+Open your browser and visit:
+
+```
+https://funduhub.com
+```
+
+You should see the padlock icon — your site is now secure!
+
+---
+
+## ✅ Step 4: Test Auto-Renewal (Optional)
+
+Certbot auto-renews every 60–90 days. To test:
+
+```bash
+sudo certbot renew --dry-run
+```
+
+---
+
+## ✅ SSL Certificates are located at:
+
+- `/etc/letsencrypt/live/funduhub.com/fullchain.pem`  (public cert)
+- `/etc/letsencrypt/live/funduhub.com/privkey.pem`    (private key)
+
+No need to mess with these — Certbot + Nginx handles it all for you.
+
+---
+
+## ✅ Final Tips
+
+- If you ever change domains or Nginx config:
+  ```bash
+  sudo certbot --nginx -d newdomain.com
+  ```
+- If your cert ever fails to renew:
+  ```bash
+  sudo certbot renew
+  ```
+
+---
+
+You're now running a **fully encrypted Django app in production**!

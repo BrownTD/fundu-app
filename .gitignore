@@ -3,3 +3,34 @@
 frontendV2/node_modules/
 frontendV2/.expo/
 project_structure.txt
+# Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+
+# Django
+*.log
+*.pot
+*.pyc
+*.pyo
+*.db
+.env
+
+# Environment
+env/
+venv/
+ENV/
+env.bak/
+
+# Secrets
+*.pem
+*.key
+
+# OS
+.DS_Store
+
+# VSCode
+.vscode/
+*.pem
+.env
+staticfiles/

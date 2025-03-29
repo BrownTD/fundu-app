@@ -13,7 +13,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 #Allows Django to read system environment variables to hide sensitive info
 from decouple import config
-#
+
+SECRET_KEY = config('SECRET_KEY')
 from datetime import timedelta
 
 
@@ -25,12 +26,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-%7q5aoo87p8qiasc^#t*u$cl6bghh&yaji(m7881h(yqt^5)a*"
+SECRET_KEY = "-ar4mgmw091kx#s-k4cy0mx59ys!j24v+5lr+(a48+)gt15ekm"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['3.88.11.128', 'funduhub.com', 'www.funduhub.com']
 
 
 # Application definition
@@ -152,8 +153,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
-
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
