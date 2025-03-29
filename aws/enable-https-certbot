@@ -1,14 +1,14 @@
 # Enabling HTTPS with Certbot & Let's Encrypt
 
-This guide walks you through securing your Django app with a free SSL certificate using **Certbot** and **Nginx**.
+This guide walks through securing Django app with a free SSL certificate using **Certbot** and **Nginx**.
 
 ---
 
 ## ✅ Prerequisites
-Make sure you:
-- Have a domain name pointing to your EC2 public IP (e.g., funduhub.com)
+
+- Have a domain name pointing to EC2 public IP (e.g., funduhub.com)
 - Have Nginx + Gunicorn already configured and running
-- Can visit `http://yourdomain.com` and see your Django app
+- Can visit `http://yourdomain.com` and see Django app
 
 ---
 
@@ -23,28 +23,26 @@ sudo apt install certbot python3-certbot-nginx
 
 ## ✅ Step 2: Run Certbot for Nginx
 
-Replace the domain below with your actual domain:
-
 ```bash
 sudo certbot --nginx -d funduhub.com -d www.funduhub.com
 ```
 
-- Certbot will detect your Nginx config and update it
+- Certbot will detect Nginx config and update it
 - When prompted:
   - Choose to **redirect HTTP to HTTPS**
-  - Certbot will automatically reload Nginx with your cert installed
+  - Certbot will automatically reload Nginx with cert installed
 
 ---
 
 ## ✅ Step 3: Verify HTTPS Works
 
-Open your browser and visit:
+Open browser and visit:
 
 ```
 https://funduhub.com
 ```
 
-You should see the padlock icon — your site is now secure!
+Should see the padlock icon — site is now secure!
 
 ---
 
@@ -58,26 +56,4 @@ sudo certbot renew --dry-run
 
 ---
 
-## ✅ SSL Certificates are located at:
-
-- `/etc/letsencrypt/live/funduhub.com/fullchain.pem`  (public cert)
-- `/etc/letsencrypt/live/funduhub.com/privkey.pem`    (private key)
-
-No need to mess with these — Certbot + Nginx handles it all for you.
-
----
-
-## ✅ Final Tips
-
-- If you ever change domains or Nginx config:
-  ```bash
-  sudo certbot --nginx -d newdomain.com
-  ```
-- If your cert ever fails to renew:
-  ```bash
-  sudo certbot renew
-  ```
-
----
-
-You're now running a **fully encrypted Django app in production**!
+Now running a **fully encrypted Django app in production**!
