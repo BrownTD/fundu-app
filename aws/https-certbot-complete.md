@@ -7,7 +7,7 @@ This guide documents how we secured the Django app hosted on EC2 using a custom 
 ## ✅ Prerequisites
 
 - Gunicorn + Nginx already running
-- Domain (`funduhub.com`) pointing to your EC2 IP
+- Domain (`funduhub.com`) pointing to EC2 IP
 - App already accessible at `http://funduhub.com`
 
 ---
@@ -27,16 +27,9 @@ sudo apt install certbot python3-certbot-nginx -y
 sudo certbot --nginx -d funduhub.com -d www.funduhub.com
 ```
 
-- Enter your email address
-- Agree to Terms of Service
-- Decline EFF newsletter (optional)
-- Certbot may say it couldn't automatically install the cert — we fixed that manually.
-
----
-
 ## ✅ Step 3: Manually Configure Nginx for SSL
 
-Edit your Nginx config:
+Edit Nginx config:
 
 ```bash
 sudo nano /etc/nginx/sites-available/fundu
@@ -117,11 +110,11 @@ Visit:
 https://funduhub.com
 ```
 
-You should see a **padlock** and your Django app loaded over HTTPS.
+Should see a **padlock** and your Django app loaded over HTTPS.
 
 ---
 
-## ✅ Step 7: Test Auto-Renewal (Optional)
+## ✅ Step 7: Test Auto-Renewal
 
 ```bash
 sudo certbot renew --dry-run
@@ -129,4 +122,4 @@ sudo certbot renew --dry-run
 
 ---
 
-That's it! Your Django app is now secured with SSL and fully production-ready.
+That's it! Django app is now secured with SSL and fully production-ready.
