@@ -1,36 +1,60 @@
-.DS_Store
+
+# ENVIRONMENT
+*.env
+.env.*
 .env
-frontendV2/node_modules/
-frontendV2/.expo/
-project_structure.txt
-# Python
+
+# PYTHON / DJANGO
 __pycache__/
 *.py[cod]
-*.sqlite3
-
-# Django
-*.log
-*.pot
 *.pyc
 *.pyo
+*.sqlite3
 *.db
-.env
+*.log
+*.pot
 
-# Environment
-env/
+# VENV
 venv/
-ENV/
-env.bak/
+env/
 
-# Secrets
+# SYSTEMD & LOG FILES
+*.service
+*.log
+
+# CERTIFICATES / SECURITY
 *.pem
+*.crt
 *.key
+*.csr
+*.pub
+/etc/letsencrypt/
+/etc/fail2ban/
+/var/log/fail2ban.log
 
-# OS
-.DS_Store
-
-# VSCode
-.vscode/
+# SSH
+*.pub
 *.pem
-.env
-staticfiles/
+.ssh/
+
+# DATABASE BACKUPS
+*.sql
+*.bak
+*.dump
+
+# BUT keep useful versioned SQL files
+!schema.sql
+!seed_and_update.sql
+!fundu_full.sql
+
+# OS / MISC
+.DS_Store
+Thumbs.db
+
+# FRONTEND
+frontendV2/node_modules/
+frontendV2/.expo/
+
+# LOCAL FILES TO IGNORE
+project_structure.txt
+
