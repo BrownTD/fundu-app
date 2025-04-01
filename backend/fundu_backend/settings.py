@@ -31,7 +31,7 @@ SECRET_KEY = "-ar4mgmw091kx#s-k4cy0mx59ys!j24v+5lr+(a48+)gt15ekm"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['13.217.67.98', 'funduhub.com', 'www.funduhub.com']
+ALLOWED_HOSTS = ['13.217.67.98', 'funduhub.com', 'www.funduhub.com','192.168.1.168']
 
 
 # Application definition

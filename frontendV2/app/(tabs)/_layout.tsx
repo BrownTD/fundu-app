@@ -28,10 +28,22 @@ export default function TabLayout() {
     >
       {/* Visible Tabs */}
       <Tabs.Screen
-        name="homeScreen"
-        options={{
-          tabBarStyle: { display: 'none' },
-        }}
+  name="homeScreen"
+  options={{
+    title: 'Home',
+    tabBarIcon: ({ color, size }) => (
+      <Ionicons name="home-outline" color={color} size={size} />
+    ),
+  }}
+  />
+  <Tabs.Screen
+  name="dashboard"
+  options={{
+    title: 'Dashboard',
+    tabBarIcon: ({ color, size }) => (
+      <Ionicons name="bar-chart-outline" color={color} size={size} />
+    ),
+  }}
       />
       <Tabs.Screen
         name="organizationProfile"
@@ -47,9 +59,9 @@ export default function TabLayout() {
       />
       <Tabs.Screen
         name="profileDetails"
-        options={{
-          tabBarStyle: { display: 'none' },
-        }}
+       // options={{
+       //   tabBarStyle: { display: 'none' },
+       // }}
       />
 
       {/* Hidden Screens */}
@@ -91,7 +103,7 @@ export default function TabLayout() {
       />
       <Tabs.Screen
         name="login"
-        options={{ tabBarStyle: { display: 'none' } }}
+       // options={{ tabBarStyle: { display: 'none' } }}
       />
       <Tabs.Screen
         name="paymentScreen"
