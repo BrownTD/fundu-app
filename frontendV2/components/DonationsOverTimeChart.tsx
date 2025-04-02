@@ -16,7 +16,7 @@ export default function DonationsOverTimeChart() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://192.168.1.168:8000/api/donations/?summary=true')
+    fetch('http://www.funduhub.com/api/donations/?summary=true')
       .then(res => res.json())
       .then(json => {
         const amounts = json.map((entry: any) => entry.amount);

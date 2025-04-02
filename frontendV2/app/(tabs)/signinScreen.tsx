@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useRouter } from 'expo-router';
 import { Alert } from "react-native";
+import * as SecureStore from 'expo-secure-store';
 import {
   View,
   Text,
@@ -15,6 +16,50 @@ export default function SignInScreen({ navigation }: any) {
   const [password, setPassword] = useState("");
   const [campaignCode, setCampaignCode] = useState("");
   const [secureText, setSecureText] = useState(true);
+  //const router = useRouter();
+
+// Store token in SecureStore
+const saveToken = async (key: string, value: string) => {
+  try {
+    await SecureStore.setItemAsync(key, value);
+  } catch (error) {
+    console.error("Failed to save token:", error);
+  }
+}
+  
+  const handleSignIn = async () => {
+    try {
+      const response = await fetch('https://www.funduhub.com/api/token/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: email,
+          password: password,
+        }),
+      });
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        Alert.alert('Login Failed', data.detail || 'Invalid credentials');
+        return;
+      }
+      const json = await response.json();
+
+      if (!response.ok) {
+        throw new Error(json.detail || 'Login failed');
+      }
+  
+      await SecureStore.setItemAsync('accessToken', json.access);
+      await SecureStore.setItemAsync('refreshToken', json.refresh);
+  
+      router.push('dashboard'); // Navigate to dashboard screen
+    } catch (err) {
+      Alert.alert('Login Error', err.message);
+    }
+  };
   const router = useRouter();
 
   return (
@@ -82,7 +127,7 @@ export default function SignInScreen({ navigation }: any) {
       </View>
 
       {/* Sign In Button */}
-      <TouchableOpacity style={styles.signInButton}>
+      <TouchableOpacity style={styles.signInButton} onPress={handleSignIn}>
         <Text style={styles.signInText}>Sign in</Text>
       </TouchableOpacity>
 

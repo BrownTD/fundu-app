@@ -59,7 +59,10 @@ class LoginView(APIView):
 
 # Campaign API View
 class CampaignView(APIView):
-    permission_classes = [IsAuthenticated]
+    def get_permissions(self):
+        if self.request.method == 'GET' and self.request.query_params.get('summary') == 'true':
+            return [AllowAny()]
+        return [IsAuthenticated()]
 
     def get(self, request):
         campaigns = Campaign.objects.all()

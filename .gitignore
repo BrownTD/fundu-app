@@ -58,3 +58,5 @@ frontendV2/.expo/
 # LOCAL FILES TO IGNORE
 project_structure.txt
 
+!package.json
+!package-lock.json

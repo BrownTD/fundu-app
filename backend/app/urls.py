@@ -3,7 +3,6 @@
 from django.urls import path
 from .views import RegisterView, LoginView, CampaignView, DonationView, TransactionView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
-from .views import donations_over_time
 
 urlpatterns = [
     # Authentication Endpoints
@@ -17,6 +16,4 @@ urlpatterns = [
     path('campaigns/', CampaignView.as_view(), name='campaigns'),
     path('donations/', DonationView.as_view(), name='donations'),
     path('transactions/', TransactionView.as_view(), name='transactions'),
-    path('donations-over-time/', donations_over_time)
 ]
-
