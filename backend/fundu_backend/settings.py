@@ -17,7 +17,7 @@ from decouple import config
 SECRET_KEY = config('SECRET_KEY')
 from datetime import timedelta
 
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,13 +26,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "-ar4mgmw091kx#s-k4cy0mx59ys!j24v+5lr+(a48+)gt15ekm"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['13.217.67.98', 'funduhub.com', 'www.funduhub.com','192.168.1.168']
-
+ALLOWED_HOSTS = ['13.217.67.98', 'funduhub.com', 'www.funduhub.com','192.168.1.168','172.31.91.123']
 
 # Application definition
 
@@ -47,7 +45,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
-    "app"
+    "app",
+    "storages"
 ]
 
 MIDDLEWARE = [
@@ -143,7 +142,7 @@ SIMPLE_JWT = {
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "America/New_York"
 
 USE_I18N = True
 
@@ -161,5 +160,19 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Tells Django to use our CustomUser model instead of the default User model.
-AUTH_USER_MODEL = "app.CustomUser" 
+AUTH_USER_MODEL = "app.CustomUser"
 
+# AWS S3 Settings
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_REGION_NAME = 'us-east-1'
+AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+
+AWS_DEFAULT_ACL = None
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_FILE_OVERWRITE = False
+
+MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"

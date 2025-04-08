@@ -1,50 +1,59 @@
-# Converts models to JSON
-
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
+from .models import CustomUser, Campaign, Donation, Transaction, Organization
 
-User = get_user_model()
-
+# --------------------------------------------
+# USER SERIALIZER — Handles registration logic
+# --------------------------------------------
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ['user_id', 'email', 'role', 'first_name', 'last_name']
+        model = CustomUser
+        fields = ['user_id', 'email', 'password', 'first_name', 'last_name', 'role']
+        extra_kwargs = {
+            'password': {'write_only': True}  # Prevent password from being returned in API responses
+        }
 
-def create(self, validated_data):
-        validated_data['password'] = make_password(validated_data['password'])  #Hash password before saving
-        return super().create(validated_data)
+    def create(self, validated_data):
+        """
+        Override the default create method to securely hash passwords.
+        """
+        password = validated_data.pop('password')  # Extract raw password
+        user = CustomUser(**validated_data)        # Initialize user without password
+        user.set_password(password)                # Hash and set the password securely
+        user.save()                                # Save to DB
+        return user
 
-from rest_framework import serializers
-from .models import Campaign, Donation, Transaction
-
-#Campaign Serializer
+# -------------------------------------------------
+# CAMPAIGN SERIALIZER — Converts Campaign to JSON
+# -------------------------------------------------
 class CampaignSerializer(serializers.ModelSerializer):
-    """
-    Converts Campaign model instances to JSON and validates input data.
-    """
-    created_by = serializers.ReadOnlyField(source='created_by.email')  # Display email of campaign creator
+    created_by = serializers.ReadOnlyField(source='created_by.email')  # Show email instead of full user object
 
     class Meta:
         model = Campaign
-        fields = '__all__'  # Include all fields
+        fields = '__all__'
 
-#Donation Serializer
+# -------------------------------------------------
+# DONATION SERIALIZER — Converts Donation to JSON
+# -------------------------------------------------
 class DonationSerializer(serializers.ModelSerializer):
-    """
-    Converts Donation model instances to JSON and validates input data.
-    """
-    user = serializers.ReadOnlyField(source='user.email')  # Display email of donor
+    user = serializers.ReadOnlyField(source='user.email')  # Show email of the donor
 
     class Meta:
         model = Donation
         fields = '__all__'
 
-#Transaction Serializer
+# -----------------------------------------------------
+# TRANSACTION SERIALIZER — Converts Transaction to JSON
+# -----------------------------------------------------
 class TransactionSerializer(serializers.ModelSerializer):
-    """
-    Converts Transaction model instances to JSON and validates input data.
-    """
     class Meta:
         model = Transaction
         fields = '__all__'
+# -----------------------------------------------------
+# ORGANIZATIOn SERIALIZER — Converts Organization to JSON
+# -----------------------------------------------------
+class OrganizationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Organization
+        fields = '__all__'  
