@@ -203,7 +203,45 @@ git commit -m "Initial backend setup"
 
 git push origin main
 ```
+## Backend Challenges
 
+### 1. Custom User Model Integration
+- Replacing Django’s default `User` model with a `CustomUser` caused admin panel registration issues.
+- Required a `CustomUserAdmin` configuration to make users visible and editable in the Django Admin panel.
+- Role-based logic (`manager`, `member`, `donor`) required custom serialization and conditional access handling.
+
+### 2. Multi-Part Form Handling & Image Upload
+- Submitting multipart form data with both images and JSON fields required careful setup in React Native and Django views.
+- Used `expo-image-picker` and `expo-image-manipulator` to compress images before upload.
+- Image validation (type and size) caused frequent edge-case failures that required server-side handling.
+
+### 3. AWS S3 Integration Issues
+- Django continued using `FileSystemStorage` despite `DEFAULT_FILE_STORAGE` being set to S3 in `settings.py`.
+- Root cause: environment variables were not being loaded properly, and S3 config was not in the correct `settings.py` scope.
+- Uploaded images saved locally at `/media/org_logos/` instead of pushing to S3.
+
+### 4. S3 Bucket Policy & Public Access
+- Bucket was misconfigured to deny public access even with `AWS_QUERYSTRING_AUTH = False`.
+- Policy lacked correct `s3:GetObject` permission for `arn:aws:s3:::bucket_name/*`, blocking file preview via public URL.
+- Manually uploaded files appeared, but uploads from Django were invisible in S3 due to local fallback.
+
+### 5. Form Submission Validation (manager_uid)
+- `manager_uid` (a ForeignKey to `CustomUser`) was submitted as an object instead of a user ID string, causing serialization errors.
+- Required casting `userId` to a string when appending it to `FormData` in the frontend.
+- Server validation also required cleaning up serializer fields to expect a numeric foreign key reference.
+
+### 6. View Debugging & API Errors
+- Silent errors during registration/login/posting required adding print logs and better error handling.
+- Form parsing required `MultiPartParser` and `FormParser` for uploads to work consistently.
+- Several views needed conditional permission logic (`AllowAny`, `IsAuthenticated`) depending on GET/POST routes.
+
+### 7. Static vs Media Conflicts
+- Media files were saved locally even though `MEDIA_URL` pointed to S3.
+- `BASE_DIR` inconsistencies and multiple `settings.py` files led to Django ignoring S3 config and defaulting to local storage.
+- Confusion between `STATIC_URL`, `STATIC_ROOT`, and `MEDIA_ROOT` delayed deployment of static and uploaded content.
+
+### 8. Deployment & Gunicorn Syncing
+- Changes to environment variables required restarting Gunicorn using:
 
 
 
