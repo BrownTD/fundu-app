@@ -17,9 +17,9 @@ export default function CampaignCodeScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Campaign Code</Text>
+      <Text style={styles.title}>Organization Code</Text>
       <Text style={styles.description}>
-        Your Campaign Code lets your team access progress and donation tools. Keep it safe and only share it with trusted members. Copy it down, you'll need it later.
+        Your Organization Code lets your team access progress and donation dashboard. Keep it safe and only share it with trusted members. Copy it down, you'll need it later.
       </Text>
 
       <View style={styles.codeContainer}>
@@ -32,7 +32,7 @@ export default function CampaignCodeScreen() {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => router.push("homeScreen")}
+        onPress={() => router.push("signinScreen")}
       >
         <Text style={styles.buttonText}>Got it!</Text>
       </TouchableOpacity>

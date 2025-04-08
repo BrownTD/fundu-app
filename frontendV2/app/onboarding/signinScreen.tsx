@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from 'expo-router';
+
 import { Alert } from "react-native";
 import * as SecureStore from 'expo-secure-store';
 import {
@@ -16,58 +17,62 @@ export default function SignInScreen({ navigation }: any) {
   const [password, setPassword] = useState("");
   const [campaignCode, setCampaignCode] = useState("");
   const [secureText, setSecureText] = useState(true);
-  //const router = useRouter();
+  const router = useRouter();
 
 // Store token in SecureStore
-const saveToken = async (key: string, value: string) => {
+const saveToken = async (key: string, value: any) => {
   try {
+    if (typeof value !== 'string') {
+      value = JSON.stringify(value);
+    }
     await SecureStore.setItemAsync(key, value);
   } catch (error) {
-    console.error("Failed to save token:", error);
+    console.error(`Failed to save ${key}:`, error);
   }
 }
   
-  const handleSignIn = async () => {
-    try {
-      const response = await fetch('https://www.funduhub.com/api/token/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: email,
-          password: password,
-        }),
-      });
-  
-      const data = await response.json();
-  
-      if (!response.ok) {
-        Alert.alert('Login Failed', data.detail || 'Invalid credentials');
-        return;
-      }
-      const json = await response.json();
+const handleSignIn = async () => {
+  try {
+    const response = await fetch('https://www.funduhub.com/api/login/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
 
-      if (!response.ok) {
-        throw new Error(json.detail || 'Login failed');
-      }
-  
-      await SecureStore.setItemAsync('accessToken', json.access);
-      await SecureStore.setItemAsync('refreshToken', json.refresh);
-  
-      router.push('dashboard'); // Navigate to dashboard screen
-    } catch (err) {
-      Alert.alert('Login Error', err.message);
+    // STEP 1: Grab raw response
+    const rawText = await response.text();
+    console.log('Raw response from server:', rawText);
+
+    // STEP 2: Check if it’s JSON
+    if (!response.headers.get('content-type')?.includes('application/json')) {
+      throw new Error('Server did not return JSON. Check backend URL or error.');
     }
-  };
-  const router = useRouter();
+
+    // STEP 3: Parse JSON
+    const data = JSON.parse(rawText);
+
+    if (!response.ok) {
+      Alert.alert('Login Failed', data.detail || 'Invalid credentials');
+      return;
+    }
+
+    // STEP 4: Save tokens as strings
+    await saveToken('accessToken', String(data.access));
+    await saveToken('refreshToken', String(data.refresh));
+
+    router.push('/(tabs)/dashboard');
+  } catch (err: any) {
+    Alert.alert('Login Error', err.message || 'Something went wrong');
+  }
+};
 
   return (
     <View style={styles.container}>
-      {/* Header */}
-      <TouchableOpacity onPress={() => router.push("login")} style={styles.backButton}>
-        <Ionicons name="arrow-back" size={24} color="black" />
-      </TouchableOpacity>
 
       {/* Title */}
       <Text style={styles.title}>Welcome to FundU</Text>
@@ -134,7 +139,7 @@ const saveToken = async (key: string, value: string) => {
       {/* Sign Up Link */}
       <View style={styles.signUpContainer}>
         <Text style={styles.signUpText}>Don't have an account yet?</Text>
-        <TouchableOpacity onPress={() => router.push("login")}>
+        <TouchableOpacity onPress={() => router.push("onboarding/managerpipe")}>
           <Text style={styles.signUpLink}> Sign up</Text>
         </TouchableOpacity>
       </View>
@@ -149,15 +154,11 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "#fff",
   },
-  backButton: {
-    padding: 10,
-    marginTop:80,
-  },
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    marginTop: 80,
-    textAlign: "center"
+    marginTop: 200,
+    textAlign: "center",
   },
   subtitle: {
     fontSize: 14,
@@ -194,16 +195,17 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
   signInButton: {
-    width: "100%",
-    paddingVertical: 15,
-    borderRadius: 50,
-    backgroundColor: "#6741FF",
+    width: "80%",
+    paddingVertical: 12,
+    borderRadius: 20,
+    backgroundColor: "#6741FF", // Updated button color
     alignItems: "center",
-    marginTop: 20,
+    alignSelf: "center",
+    marginVertical: 20,
   },
   signInText: {
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 16,
+    fontWeight: "semibold",
     color: "white",
   },
   signUpContainer: {

@@ -1,60 +1,72 @@
 import React, { useState } from "react";
-import { View, TouchableOpacity, Text, Image, StyleSheet, GestureResponderEvent } from "react-native";
-import { useNavigation } from "expo-router";
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  Image,
+  StyleSheet,
+  GestureResponderEvent,
+} from "react-native";
 import { useRouter } from "expo-router";
 import Logo from "@/assets/images/funduLogo";
-//import type { LogoProps } from "@/assets/images/funduLogo";
+import { useRegistration } from "context/registrationContext";
 
-export default function HomeScreen() {
-  const navigation = useNavigation();
-  const [selectedRole, setSelectedRole] = useState<string | null>("donor");
-
+// ---------------------------------------------------------
+// RoleSelection — lets user choose between leader or member
+// ---------------------------------------------------------
+export default function RoleSelection() {
+  const [selectedRole, setSelectedRole] = useState<string>("manager"); // default to leader
   const router = useRouter();
+  const { setRegistrationData } = useRegistration(); // pulls setter from context
+
+  // Update local selection state
   const handleSelection = (role: string) => {
     setSelectedRole(role);
   };
 
+  // Save role globally and redirect based on choice
   function handleGetStarted(event: GestureResponderEvent): void {
-       if (selectedRole) {
-         router.push("login");
-       }
-     }
+    setRegistrationData(prev => ({ ...prev, role: selectedRole }));
+
+    if (selectedRole === "manager") {
+      router.push("onboarding/managerpipe");
+    } else if (selectedRole === "member") {
+      router.push("memberpipe");
+    }
+  }
 
   return (
     <View style={styles.container}>
       <Logo style={styles.logo} />
-      <Text style={styles.title}>Are you a donor or an organization member?</Text>
+      <Text style={styles.title}>
+        Are you an organization leader or an organization member?
+      </Text>
 
+      {/* Manager selection button */}
       <TouchableOpacity
-        style={[styles.button, selectedRole === "donor" && styles.selected]}
-        onPress={() => handleSelection("donor")}
+        style={[styles.button, selectedRole === "manager" && styles.selected]}
+        onPress={() => handleSelection("manager")}
       >
-        {/* Show a check icon in the top-right if "donor" is selected */}
-        {selectedRole === "donor" && (
-          <Image
-            source={require("@/assets/images/check.png")} 
-            style={styles.check}
-          />
+        {selectedRole === "manager" && (
+          <Image source={require("@/assets/images/check.png")} style={styles.check} />
         )}
-        <Image source={require('@/assets/images/donationIcon.png')} style={styles.icon} />
-        <Text style={styles.buttonText}>Donor</Text>
+        <Image source={require("@/assets/images/donationIcon.png")} style={styles.icon} />
+        <Text style={styles.buttonText}>Organization Leader</Text>
       </TouchableOpacity>
 
+      {/* Member selection button */}
       <TouchableOpacity
-        style={[styles.button, selectedRole === "organization" && styles.selected]}
-        onPress={() => handleSelection("organization")}
+        style={[styles.button, selectedRole === "member" && styles.selected]}
+        onPress={() => handleSelection("member")}
       >
-        {/* Show a check icon in the top-right if "organization" is selected */}
-        {selectedRole === "organization" && (
-          <Image
-            source={require("@/assets/images/check.png")} 
-            style={styles.check}
-          />
+        {selectedRole === "member" && (
+          <Image source={require("@/assets/images/check.png")} style={styles.check} />
         )}
-        <Image source={require('@/assets/images/orgMembers.png')} style={styles.icon} />
+        <Image source={require("@/assets/images/orgMembers.png")} style={styles.icon} />
         <Text style={styles.buttonText}>Organization Member</Text>
       </TouchableOpacity>
 
+      {/* Continue button */}
       <TouchableOpacity
         style={[styles.getStartedButton, !selectedRole && styles.disabled]}
         onPress={handleGetStarted}
@@ -66,6 +78,7 @@ export default function HomeScreen() {
   );
 }
 
+// ---------------
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -78,21 +91,22 @@ const styles = StyleSheet.create({
     width: 210,
     height: 210,
     alignSelf: "center",
-    marginBottom: 0,
+    marginBottom: -10,
     resizeMode: "contain",
+    marginTop: -50, // Adjusted for better spacing
   },
   title: {
     fontSize: 23,
     marginBottom: 20,
     color: "#333",
     fontWeight: "bold",
-    alignItems: "center",
+    textAlign: "center",
   },
   button: {
     width: "80%",
     height: 160,
     paddingVertical: 10,
-    borderWidth: .1,
+    borderWidth: 0.1,
     borderColor: "#333",
     borderRadius: 15,
     alignItems: "center",
@@ -113,15 +127,14 @@ const styles = StyleSheet.create({
   selected: {
     backgroundColor: "#fff",
     shadowColor: "#000",
-    shadowOffset: { width: 10, height: 0},
+    shadowOffset: { width: 10, height: 0 },
     shadowOpacity: 0.2,
     shadowRadius: 25,
   },
   buttonText: {
     fontSize: 16,
-    fontWeight: "regular",
     color: "#000",
-    marginLeft: 0,
+    marginTop: 10,
   },
   icon: {
     width: 50,
@@ -137,7 +150,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   getStartedText: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "semibold",
     color: "white",
   },

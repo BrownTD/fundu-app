@@ -8,121 +8,118 @@ import TabBarBackground from '@/components/ui/TabBarBackground.ios';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
+import { RegistrationProvider } from '../../context/registrationContext'; // Import your context
+
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            position: 'absolute',
-          },
-          default: {},
-        }),
-      }}
-    >
-      {/* Visible Tabs */}
-      <Tabs.Screen
-  name="homeScreen"
-  options={{
-    title: 'Home',
-    tabBarIcon: ({ color, size }) => (
-      <Ionicons name="home-outline" color={color} size={size} />
-    ),
-  }}
-  />
-  <Tabs.Screen
-  name="dashboard"
-  options={{
-    title: 'Dashboard',
-    tabBarIcon: ({ color, size }) => (
-      <Ionicons name="bar-chart-outline" color={color} size={size} />
-    ),
-  }}
-      />
-      <Tabs.Screen
-        name="organizationProfile"
-        options={{
-          tabBarStyle: { display: 'none' },
+    <RegistrationProvider>
+      <Tabs
+        screenOptions={{
+          tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+          headerShown: false,
+          tabBarButton: HapticTab,
+          tabBarBackground: TabBarBackground,
+          tabBarStyle: Platform.select({
+            ios: {
+              position: 'absolute',
+            },
+            default: {},
+          }),
         }}
-      />
-      <Tabs.Screen
-        name="index"
-        options={{
-          tabBarStyle: { display: 'none' },
-        }}
-      />
-      <Tabs.Screen
-        name="profileDetails"
-       // options={{
-       //   tabBarStyle: { display: 'none' },
-       // }}
-      />
-
-      {/* Hidden Screens */}
-      <Tabs.Screen
-        name="campaignQrCode"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="campaignCode"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="campaignDetails"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="campaignSetup"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="customGift"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="detailsScreen"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="donationSuccess"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="donorProfile"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="historyScreen"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="login"
-       // options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="paymentScreen"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="selectGift"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="signinScreen"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="signup"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-    </Tabs>
-    
+      >
+        {/* Visible Tabs */}
+        <Tabs.Screen
+          name="homeScreen"
+          options={{
+            title: 'Home',
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="home-outline" color={color} size={size} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="dashboard"
+          options={{
+            title: 'Dashboard',
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="bar-chart-outline" color={color} size={size} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="organizationProfile"
+          options={{
+            tabBarStyle: { display: 'none' },
+          }}
+        />
+        <Tabs.Screen
+          name="index"
+          options={{
+            tabBarStyle: { display: 'none' },
+          }}
+        />
+        <Tabs.Screen
+          name="profileDetails"
+        />
+        {/* Hidden Screens */}
+        <Tabs.Screen
+          name="campaignQrCode"
+          options={{ tabBarStyle: { display: 'none' } }}
+        />
+        <Tabs.Screen
+          name="campaignCode"
+          options={{ tabBarStyle: { display: 'none' } }}
+        />
+        <Tabs.Screen
+          name="campaignDetails"
+          options={{ tabBarStyle: { display: 'none' } }}
+        />
+        <Tabs.Screen
+          name="campaignSetup"
+          options={{ tabBarStyle: { display: 'none' } }}
+        />
+        <Tabs.Screen
+          name="customGift"
+          options={{ tabBarStyle: { display: 'none' } }}
+        />
+        <Tabs.Screen
+          name="detailsScreen"
+          options={{ tabBarStyle: { display: 'none' } }}
+        />
+        <Tabs.Screen
+          name="donationSuccess"
+          options={{ tabBarStyle: { display: 'none' } }}
+        />
+        <Tabs.Screen
+          name="donorProfile"
+          options={{ tabBarStyle: { display: 'none' } }}
+        />
+        <Tabs.Screen
+          name="historyScreen"
+          options={{ tabBarStyle: { display: 'none' } }}
+        />
+        <Tabs.Screen
+          name="managerpipe"
+        />
+        <Tabs.Screen
+          name="paymentScreen"
+          options={{ tabBarStyle: { display: 'none' } }}
+        />
+        <Tabs.Screen
+          name="selectGift"
+          options={{ tabBarStyle: { display: 'none' } }}
+        />
+        <Tabs.Screen
+          name="signinScreen"
+          options={{ tabBarStyle: { display: 'none' } }}
+        />
+        <Tabs.Screen
+          name="signup"
+          options={{ tabBarStyle: { display: 'none' } }}
+        />
+      </Tabs>
+    </RegistrationProvider>
   );
 }
-

@@ -44,7 +44,7 @@ export default function CampaignDetailsScreen({ navigation }: any) {
     "Are all your details correct?",
     [
       { text: "No", style: "cancel" },
-      { text: "Yes", onPress: () => router.push("campaignCode")
+      { text: "Yes", onPress: () => router.push("organizationCode")
       },
     ],
     { cancelable: true }
@@ -62,7 +62,7 @@ export default function CampaignDetailsScreen({ navigation }: any) {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-      <TouchableOpacity onPress={() => router.push("campaignSetup")} style={styles.backButton}>
+      <TouchableOpacity onPress={() => router.push("orgOnboarding")} style={styles.backButton}>
         <Ionicons name="arrow-back" size={24} color="black" />
       </TouchableOpacity>
 

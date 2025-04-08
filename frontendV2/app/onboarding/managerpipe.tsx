@@ -53,7 +53,7 @@ export default function LoginScreen() {
           <Text style={styles.socialButtonText}>Continue with Facebook</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.emailButton} onPress={() => router.push("signup")}>
+        <TouchableOpacity style={styles.emailButton} onPress={() => router.push("onboarding/signup")}>
           <Text style={styles.emailButtonText}>Sign up with Email</Text>
         </TouchableOpacity>
 
@@ -61,7 +61,7 @@ export default function LoginScreen() {
         {/* "Already a member?" and "Log in" on the same line */}
         <View style={styles.loginContainer}>
           <Text style={styles.alreadyMember}>Already a member?</Text>
-          <TouchableOpacity onPress={() => router.push("signinScreen")}>
+          <TouchableOpacity onPress={() => router.push("onboarding/signinScreen")}>
             <Text style={styles.loginText}> Log in</Text>
           </TouchableOpacity>
         </View>
