@@ -116,29 +116,40 @@ This will launch the Expo development server. Follow the on-screen instructions 
 
 # Challenges
 
-### Routing & Navigation:
-- Implementing a robust router solution for page navigation was challenging. Managing dynamic routes and nested layouts required careful planning and debugging.
+### 1. Routing & Navigation
 
-The project leverages Expo Router for seamless navigation. For instance, you can import and use the `useRouter` hook from the `expo-router` package as shown below:
+Implementing smooth navigation using **Expo Router** required thoughtful layout planning. Custom routing structures—such as tabbed layouts, modal screens, and nested onboarding flows—had to be coordinated with proper navigation context to prevent crashes or screen flickers.
 
-```tsx
-import { useRouter } from "expo-router";
+- Dynamic routing with nested directories was particularly challenging when integrating screens like `signup`, `signinScreen`, and `campaignDetails`.
+- Modal flows and condition-based routing (e.g., redirecting users based on role selection) demanded use of `useRouter()` and conditional checks in `useEffect()`.
 
-const MyComponent = () => {
-  const router = useRouter();
+### 2. Context Management Across Screens
 
-  const navigateToHome = () => {
-    router.push("/homeScreen");
-  };
+Maintaining form data across a 4-screen multi-step onboarding (personal info → org setup → campaign details → confirmation) led to the use of a global `RegistrationContext`. This ensured persistent data state, especially useful for passing organization name, logo, and manager UID between screens.
 
-  return (
-    <div>
-      <button onClick={navigateToHome}>Go to Home</button>
-    </div>
-  );
-};
+- Challenges included proper `useState` syncing and debugging cases where fields were reset on navigation.
 
-export default MyComponent;
+### 3. Image Upload & Validation
+
+Using `expo-image-picker` and `expo-image-manipulator` introduced several technical hurdles:
+
+- Files selected from the iOS simulator or real devices had to be resized and compressed without breaking upload format.
+- Certain updates from `expo-image-picker` deprecated previous constants like `MediaTypeOptions`, which required adaptation and extra validation for file size/type.
+
+### 4. Backend Integration & Multipart Requests
+
+`FormData` submission (with both image files and JSON fields) to the Django backend involved:
+
+- Ensuring proper headers and format in fetch requests.
+- Handling `multipart/form-data` encoding for image uploads with S3 support.
+- Challenges around debugging errors like missing `manager_uid`, file permission issues, and improper S3 bucket access led to backend trace debugging and full-stack coordination.
+
+### 5. Conditional UI Logic
+
+Disabling and enabling buttons based on form completeness (e.g., “Next” or “Finished” buttons) required layered conditionals and dynamic style updates.
+
+- In one case, we transitioned from disabling entire buttons to conditionally styling **text inside the button**, improving UX feedback.
+
 ```
 # Dependencies
 The project is managed using npm. Some key dependencies include:
