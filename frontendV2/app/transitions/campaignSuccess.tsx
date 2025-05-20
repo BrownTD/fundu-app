@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { View, ActivityIndicator, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as Animatable from 'react-native-animatable';
-import OnboardingArt from 'assets/images/onboarding.svg';
+import OnboardingArt from '../../assets/images/campaign.svg';
 import { router } from "expo-router";
 
 export default function SignupSuccessScreen() {
@@ -10,7 +10,7 @@ export default function SignupSuccessScreen() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.push("/onboarding/orgOnboarding");
+      router.push("/(tabs)/dashboard")
     }, 6000);
 
     return () => clearTimeout(timer);
@@ -22,10 +22,10 @@ export default function SignupSuccessScreen() {
         <OnboardingArt width={400} height={400} />
       </Animatable.View>
       <Animatable.Text animation="fadeIn" delay={1000} style={styles.title}>
-        Account Created Successfully!
+        Organization Created Successfully!
       </Animatable.Text>
       <Animatable.Text animation="fadeInUp" delay={1200} style={styles.subtitle}>
-        Now let’s create your organization’s page
+        Let's View your Dashboard
       </Animatable.Text>
       <ActivityIndicator size="large" color="#6741FF" style={{ marginTop: 20 }} />
     </View>

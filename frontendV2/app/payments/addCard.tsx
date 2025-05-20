@@ -8,16 +8,18 @@ import {
   Alert,
 } from "react-native";
 import { useRouter } from "expo-router";
+import { MaterialIcons } from '@expo/vector-icons';
+
 
 export default function PaymentScreen() {
   const router = useRouter();
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [nameonCard, setName] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [expiry, setExpiry] = useState("");
   const [cvv, setCvv] = useState("");
   const [zip, setZip] = useState("");
+  const [isDefault, setIsDefault] = useState(false);
 
   const validatePayment = () => {
     // Basic validations
@@ -53,52 +55,47 @@ export default function PaymentScreen() {
     }
 
     // If all checks pass, navigate to donationSuccess
-    router.push("donationSuccess");
+    router.push("paymentMethod");
   };
 
-  // Placeholder for Apple/Google/PayPal flows
-  const handleApplePay = () => Alert.alert("Apple Pay", "Apple Pay flow goes here.");
-  const handleGooglePay = () => Alert.alert("Google Pay", "Google Pay flow goes here.");
-  const handlePayPal = () => Alert.alert("PayPal", "PayPal flow goes here.");
-
   return (
+    
     <View style={styles.container}>
-      <Text style={styles.title}>Payment Method</Text>
+  <TouchableOpacity onPress={() => router.push("paymentMethod")} style={styles.backButton}>
+    <MaterialIcons name="arrow-back-ios" size={20} color="#000" />
+  </TouchableOpacity>
+  <Text style={styles.title}>Add Card</Text>
 
       {/* Basic card fields */}
       <View style={styles.field}>
-        <Text style={styles.label}>First Name</Text>
+        <Text style={styles.label}>Name on Card</Text>
         <TextInput
           style={styles.input}
-          placeholder="John"
-          value={firstName}
-          onChangeText={setFirstName}
+          placeholder="John Doe"
+          value={nameonCard}
+          onChangeText={setName}
         />
       </View>
+
       <View style={styles.field}>
-        <Text style={styles.label}>Last Name</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Doe"
-          value={lastName}
-          onChangeText={setLastName}
-        />
+        <Text style={styles.label}> Card Number</Text> 
+        <View style={styles.inlineInputRow}>
+        <MaterialIcons name="credit-card" size={20} style={styles.cardIcon} />
+          <TextInput
+            style={[styles.input]}
+            placeholder="Card Number"
+            keyboardType="numeric"
+            value={cardNumber}
+            onChangeText={setCardNumber}
+          />
+        </View>
       </View>
+
       <View style={styles.field}>
-        <Text style={styles.label}>Card Number</Text>
+        <Text style={styles.label}>Expiration Date</Text>
         <TextInput
           style={styles.input}
-          placeholder="4242 4242 4242 4242"
-          keyboardType="numeric"
-          value={cardNumber}
-          onChangeText={setCardNumber}
-        />
-      </View>
-      <View style={styles.field}>
-        <Text style={styles.label}>Expiry (MM/YY)</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="12/25"
+          placeholder="MM/YY"
           value={expiry}
           onChangeText={setExpiry}
         />
@@ -124,20 +121,14 @@ export default function PaymentScreen() {
           onChangeText={setZip}
         />
       </View>
-
-      {/* Alternate Payment Options */}
-      <Text style={styles.altPayTitle}>Or Pay with:</Text>
-      <View style={styles.altPayContainer}>
-        <TouchableOpacity style={[styles.altPayButton, styles.applePay]} onPress={handleApplePay}>
-          <Text style={styles.altPayText}>Apple Pay</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.altPayButton, styles.googlePay]} onPress={handleGooglePay}>
-          <Text style={styles.altPayText}>Google Pay</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.altPayButton, styles.payPal]} onPress={handlePayPal}>
-          <Text style={styles.altPayText}>PayPal</Text>
-        </TouchableOpacity>
-      </View>
+      {/* Default Payment Method Checkbox */}
+      <TouchableOpacity
+  style={styles.checkboxRow}
+  onPress={() => setIsDefault(!isDefault)}
+>
+  <View style={[styles.checkbox, isDefault && styles.checkboxChecked]} />
+  <Text style={styles.checkboxLabel}>Set as your default payment method</Text>
+</TouchableOpacity>
 
       {/* Standard Pay Now Button */}
       <TouchableOpacity style={styles.payNowButton} onPress={validatePayment}>
@@ -151,66 +142,77 @@ export default function PaymentScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 30,
     backgroundColor: "#fff",
   },
+  backButton: {
+    paddingRight: 10,
+    top: 80
+  },  
   title: {
-    marginTop: 80,
-    fontSize: 18,
-    marginBottom: 15,
-    fontWeight: "normal", // or "regular" if your font supports it
+    marginTop: 50,
+    fontSize: 30,
+    marginBottom: 40,
+    fontWeight: "bold", // or "regular" if your font supports it
     textAlign: "center",
   },
   field: {
-    marginBottom: 15,
+    borderBottomWidth: 1,
+    borderColor: '#ccc',
+    marginBottom: 30,
   },
   label: {
     fontSize: 14,
     marginBottom: 5,
   },
   input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 10,
-    paddingHorizontal: 10,
+    flex: 1,
     paddingVertical: 8,
-    fontSize: 16,
+    paddingHorizontal: 0,
+    fontSize: 18,
+    marginBottom: 10,
   },
-  altPayTitle: {
-    marginTop: 10,
-    fontSize: 16,
-    textAlign: "center",
-    color: "gray",
+  inlineInputRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  altPayContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
+  cardIcon: {
+    fontSize: 30,
+    marginRight: 8,
+    color: '#6741FF'
+  },
+  checkboxRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginVertical: 15,
   },
-  altPayButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 8,
+  checkbox: {
+    width: 20,
+    height: 20,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 4,
+    marginRight: 10,
   },
-  altPayText: {
-    color: "#fff",
+  checkboxChecked: {
+    backgroundColor: '#6741FF',
+  },
+  checkboxLabel: {
     fontSize: 14,
-  },
-  applePay: {
-    backgroundColor: "#000",
-  },
-  googlePay: {
-    backgroundColor: "#4285F4",
-  },
-  payPal: {
-    backgroundColor: "#003087",
   },
   payNowButton: {
     backgroundColor: "#6741FF",
-    paddingVertical: 15,
     borderRadius: 25,
-    alignItems: "center",
-    marginTop: 20,
+    paddingVertical: 15,
+    marginTop: 110,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 10,
+    elevation: 3,
+    width: "90%",
+    alignSelf: "center",
   },
   payNowText: {
     color: "#fff",

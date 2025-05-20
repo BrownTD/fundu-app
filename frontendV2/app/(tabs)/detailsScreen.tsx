@@ -13,9 +13,16 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { LineChart } from "react-native-chart-kit";
 import { useRouter } from 'expo-router';
+import ProfileIcon from 'components/ProfileIcon';
 
+export const options = {
+  title: 'Campaigns',
+  tabBarIcon: ({ color, size }: { color: string; size: number }) => (
+    <Ionicons name="megaphone" color={color} size={size} />
+  ),
+};
 
-export default function OrganizationProfileScreen({ navigation }: any) {
+export default function CampaignDetailsScreen() {
   const router = useRouter();
   const organization = {
     name: "CLT Club Baseball",
@@ -56,10 +63,8 @@ const [tooltipPos, setTooltipPos] = useState({
     <ScrollView contentContainerStyle={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-      <TouchableOpacity onPress={() => router.push("homeScreen")}>
-          <Ionicons name="arrow-back" size={24} color="black" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Campaign Details</Text>
+        <Text style={styles.headerTitle}>Campaigns</Text>
+        <ProfileIcon onPress={() => router.push('/profileDetails')} />
       </View>
 
       {/* Profile Image */}
@@ -160,19 +165,19 @@ const [tooltipPos, setTooltipPos] = useState({
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    padding: 0,
     backgroundColor: "#fff",
   },
   header: {
-    marginTop: 80,
+    marginTop: 90,
     flexDirection: "row",
-    alignItems: "center",
     marginBottom: 20,
+    flex: 1,
+    paddingHorizontal: 20,
   },
   headerTitle: {
-    fontSize: 20,
-    fontWeight: "regular",
-    marginLeft: 80,
+    fontSize: 32,
+    fontWeight: "bold",
   },
   profileImageContainer: {
     alignSelf: "center",

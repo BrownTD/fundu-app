@@ -11,6 +11,14 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRegistration } from "../../context/registrationContext"; // Import global registration context
+import {router} from "expo-router";
+
+import {
+  Keyboard,
+  TouchableWithoutFeedback,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 
 export default function SignUpScreen() {
   const navigation = useNavigation();
@@ -21,7 +29,7 @@ export default function SignUpScreen() {
     setRegistrationData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const isValidPassword = (password) => {
+  const isValidPassword = (password: string) => {
     const hasLowercase = /[a-z]/.test(password);
     const hasUppercase = /[A-Z]/.test(password);
     const hasNumber = /[0-9]/.test(password);
@@ -93,16 +101,22 @@ export default function SignUpScreen() {
           userId: data.user.user_id,
         }));
   
-        navigation.navigate("transitions/signupSuccess");
+        router.push("/transitions/signupSuccess");
       } else {
         Alert.alert("Registration Failed", JSON.stringify(data));
       }
     } catch (error) {
+      console.error("Signup error:", error);
       Alert.alert("Network Error", "Unable to connect to the server. Please try again later.");
     }
   };
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{ flex: 1 }}
+        >
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
@@ -179,13 +193,15 @@ export default function SignUpScreen() {
       {/* Already a member? Log In */}
       <View style={styles.loginContainer}>
         <Text style={styles.alreadySubscriber}>Already a member? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate("onboarding/signinScreen")}>
+        <TouchableOpacity onPress={() => router.push("/onboarding/signinScreen")}>
           <Text style={styles.loginText}>Log In</Text>
         </TouchableOpacity>
       </View>
     </View>
-  );
-}
+  </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
+    );
+  }
 
 // Styling
 const styles = StyleSheet.create({

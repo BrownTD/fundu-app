@@ -1,3 +1,4 @@
+import React from 'react';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
@@ -6,50 +7,46 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-import { RegistrationProvider } from '../context/registrationContext'; // Wrap context
+import { useColorScheme } from '../hooks/useColorScheme';
+import { RegistrationProvider } from '../context/registrationContext';
 
-// Prevent the splash screen from auto-hiding before asset loading is complete
+
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
 
-  // Load custom fonts
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
 
-  // Hide splash screen once fonts are ready
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
     }
   }, [loaded]);
 
-  // Don't render anything until fonts are ready
   if (!loaded) return null;
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <RegistrationProvider>
-        <Stack>
-          {/* Tabs (Main App) */}
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-
-          {/* Onboarding Flow */}
-          <Stack.Screen name="onboarding/index" options={{ headerShown: false }} />
-          <Stack.Screen name="onboarding/signup" options={{ headerShown: false }} />
-          <Stack.Screen name="onboarding/signinScreen" options={{ headerShown: false }} />
-          <Stack.Screen name="onboarding/managerpipe" options={{ headerShown: false }} />
-          <Stack.Screen name="onboarding/orgOnboarding" options={{ headerShown: false }} />
-          <Stack.Screen name="onboarding/organizationCode" options={{ headerShown: false }} />
-
-          {/* Transition Screens */}
-          <Stack.Screen name="transitions/signupSuccess" options={{ headerShown: false }} />
-
-          {/* Fallback / 404 */}
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="index" />
+          <Stack.Screen name="roleSelect"/>
+          <Stack.Screen name="onboarding/managerpipe"  />
+          <Stack.Screen name="onboarding/signup" />
+          <Stack.Screen name="transitions/signupSuccess"  />
+          <Stack.Screen name="onboarding/orgOnboarding" />
+          <Stack.Screen name="onboarding/campaignDetails" />
+          <Stack.Screen name="transitions/campaignSuccess"  />
+          <Stack.Screen name="onboarding/organizationCode"  />
+          <Stack.Screen name="onboarding/signinScreen"  />
+          <Stack.Screen name="onboarding/memberpipe"/>
+          <Stack.Screen name="payments/addCard"  />
+          <Stack.Screen name="(tabs)" />
           <Stack.Screen name="+not-found" />
+          <Stack.Screen name="profileDetails" options={{ animation: 'slide_from_bottom',  }} />
         </Stack>
       </RegistrationProvider>
 

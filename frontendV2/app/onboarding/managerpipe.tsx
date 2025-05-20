@@ -61,7 +61,7 @@ export default function LoginScreen() {
         {/* "Already a member?" and "Log in" on the same line */}
         <View style={styles.loginContainer}>
           <Text style={styles.alreadyMember}>Already a member?</Text>
-          <TouchableOpacity onPress={() => router.push("onboarding/signinScreen")}>
+          <TouchableOpacity onPress={() => router.push("dashboard")}>
             <Text style={styles.loginText}> Log in</Text>
           </TouchableOpacity>
         </View>

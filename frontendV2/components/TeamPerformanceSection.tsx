@@ -12,19 +12,19 @@ const mockTeam: Member[] = [
   {
     id: '1',
     name: 'Jordan Thomas',
-    profileImage: require('../assets/images/profileImage.png'),
+    profileImage: require('assets/images/profileImage.png'),
     amountRaised: '$1,250',
   },
   {
     id: '2',
     name: 'Taylor Lee',
-    profileImage: require('../assets/images/profileImage.png'),
+    profileImage: require('assets/images/profileImage.png'),
     amountRaised: '$980',
   },
   {
     id: '3',
     name: 'Morgan Diaz',
-    profileImage: require('../assets/images/profileImage.png'),
+    profileImage: require('assets/images/profileImage.png'),
     amountRaised: '$870',
   },
 ];
@@ -56,7 +56,7 @@ export default function TeamPerformanceSection({ textColor }: Props) {
 const styles = StyleSheet.create({
   wrapper: {
     paddingHorizontal: 20,
-    marginTop: 40,
+    marginTop: 30,
   },
   title: {
     fontSize: 20,

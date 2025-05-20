@@ -10,8 +10,16 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from 'expo-router';
+import ProfileIcon from '../../components/ProfileIcon';
 
-export default function OrganizationProfileScreen({ navigation }: any) {
+export const options = {
+  title: 'Organization',
+  tabBarIcon: ({ color, size }: { color: string; size: number }) => (
+    <Ionicons name="business" color={color} size={size} />
+  ),
+};
+
+export default function OrganizationProfileScreen() {
   const router = useRouter();
   const organization = {
     name: "CLT Club Baseball",
@@ -35,10 +43,8 @@ export default function OrganizationProfileScreen({ navigation }: any) {
     <ScrollView contentContainerStyle={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.push("homeScreen")}>
-          <Ionicons name="arrow-back" size={24} color="black" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Organization Profile</Text>
+        <Text style={styles.headerTitle}>Organization</Text>
+        <ProfileIcon onPress={() => router.push('/profileDetails')} />
       </View>
 
       {/* Profile Image */}
@@ -55,7 +61,7 @@ export default function OrganizationProfileScreen({ navigation }: any) {
       {/* Current Campaign */}
       <Text style={styles.sectionTitle}>Current Campaign</Text>
       <View style={styles.campaignCard}>
-      <TouchableOpacity onPress={() => router.push("detailsScreen")}>
+      <TouchableOpacity onPress={() => router.push("/detailsScreen")}>
         <Image source={organization.campaign.image} style={styles.campaignImage} />
         </TouchableOpacity>
         <View style={styles.campaignInfo}>
@@ -74,7 +80,7 @@ export default function OrganizationProfileScreen({ navigation }: any) {
         </View>
         <Text style={styles.campaignName}>{organization.campaign.name}</Text>
       </View>
-      <TouchableOpacity style={styles.giveButton} onPress={() => router.push("selectGift")}>
+      <TouchableOpacity style={styles.giveButton} onPress={() => router.push("/payments/selectGift")}>
   <Text style={styles.giveButtonText}>Give</Text>
 </TouchableOpacity>
       {/* Organization Bio */}
@@ -90,19 +96,19 @@ export default function OrganizationProfileScreen({ navigation }: any) {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    padding: 0,
     backgroundColor: "#fff",
   },
   header: {
-    marginTop: 80,
+    marginTop: 90,
     flexDirection: "row",
-    alignItems: "center",
     marginBottom: 20,
+    flex: 1,
+    paddingHorizontal: 20,
   },
   headerTitle: {
-    fontSize: 20,
-    fontWeight: "regular",
-    marginLeft: 70,
+    fontSize: 32,
+    fontWeight: "bold",
   },
   profileImageContainer: {
     alignSelf: "center",
@@ -111,7 +117,6 @@ const styles = StyleSheet.create({
   profileImage: {
     width: 80,
     height: 80,
-    borderRadius: 40,
   },
   organizationName: {
     fontSize: 20,

@@ -32,7 +32,7 @@ export default function CampaignCodeScreen() {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => router.push("signinScreen")}
+        onPress={() => router.push("transitions/campaignSuccess")}
       >
         <Text style={styles.buttonText}>Got it!</Text>
       </TouchableOpacity>

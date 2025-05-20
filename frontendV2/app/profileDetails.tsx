@@ -10,14 +10,14 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-// If using expo-router, you can import/use router. Or use a nav library's back method:
+
 import { useRouter } from "expo-router";
 
 export default function ProfileDetails() {
-  const router = useRouter(); // or your navigation method
+  const router = useRouter();
   const [profileImage, setProfileImage] = useState<string | null>(null);
 
-  // Example user data (could be fetched from Django)
+  // Example user data ( be fetched from Django)
   const [userData] = useState({
     firstName: "Joanne",
     lastName: "Wheeler",
@@ -64,12 +64,12 @@ export default function ProfileDetails() {
 
   return (
     <View style={styles.container}>
-      {/* Header with Back Button & Title */}
+      {/* Header with back Button & Title */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="black" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Profile</Text>
+      <TouchableOpacity onPress={handleBack} style={styles.backButton}>
+        <Text style={styles.backButton}>Done</Text>
+      </TouchableOpacity>
+        <Text style={styles.headerTitle}>Account</Text>
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -79,7 +79,7 @@ export default function ProfileDetails() {
             source={
               profileImage
                 ? { uri: profileImage }
-                : require("../../assets/images/profileImage.png") // or any fallback image
+                : require("../assets/images/profileImage.png") // or any fallback image
             }
             style={styles.profileImage}
           />
@@ -138,17 +138,26 @@ const styles = StyleSheet.create({
     marginTop: 80,
     flexDirection: "row",
     alignItems: "center",
-    paddingTop: 50,
+    //paddingTop: 50,
     paddingHorizontal: 20,
     marginBottom: 10,
   },
   backButton: {
-    paddingRight: 10,
+    position: 'absolute',
+    marginTop: -10,
+    right: 10,
+    zIndex: 1,
+    fontSize: 16, 
+    fontWeight: "bold",
+    color: '#6741FF'
   },
   headerTitle: {
-    fontSize: 22,
-    fontWeight: "regular",
-    marginLeft: 110
+    fontSize: 16,
+    fontWeight: "bold",
+    //marginLeft: 110
+    alignContent: "center",
+    textAlign: "center",
+    flex: 1, // pushes the icon to the right
   },
   /* Scroll Content */
   scrollContent: {

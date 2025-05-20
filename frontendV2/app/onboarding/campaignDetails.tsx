@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Slider from '@react-native-community/slider';
-import { Alert } from "react-native";
+import { Alert, ScrollView } from "react-native";
 import { useRouter } from 'expo-router'
 import {
   View,
@@ -11,6 +11,9 @@ import {
   StyleSheet,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useEffect, useRef } from "react";
+import { Animated, Easing } from "react-native";
+import Goals from '../../assets/images/goalsCuate.svg';
 
 const categories = [
   "Academic",
@@ -32,7 +35,7 @@ const chunkArray = (arr: string[], size: number) => {
   }, [] as string[][]);
 };
 
-export default function CampaignDetailsScreen({ navigation }: any) {
+export default function CampaignDetailsScreen({ }: any) {
   const [fundraisingGoal, setFundraisingGoal] = useState(100);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [modalVisible, setModalVisible] = useState(false);
@@ -44,7 +47,7 @@ export default function CampaignDetailsScreen({ navigation }: any) {
     "Are all your details correct?",
     [
       { text: "No", style: "cancel" },
-      { text: "Yes", onPress: () => router.push("organizationCode")
+      { text: "Yes", onPress: () => router.push("/onboarding/organizationCode")
       },
     ],
     { cancelable: true }
@@ -58,75 +61,140 @@ export default function CampaignDetailsScreen({ navigation }: any) {
         Alert.alert("Limit reached", "Organization bio cannot exceed 250 characters.");
       }
     };
+
+    const fadeAnim = useRef(new Animated.Value(0)).current;
+const slideAnim = useRef(new Animated.Value(50)).current;
+
+const closeModal = () => {
+  Animated.parallel([
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 200,
+      useNativeDriver: true,
+    }),
+    Animated.timing(slideAnim, {
+      toValue: 50,
+      duration: 250,
+      easing: Easing.in(Easing.ease),
+      useNativeDriver: true,
+    }),
+  ]).start(() => {
+    setModalVisible(false);
+  });
+};
+
+useEffect(() => {
+  if (modalVisible) {
+    // Animate in
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 250,
+        easing: Easing.out(Easing.ease),
+        useNativeDriver: true,
+      }),
+    ]).start();
+  } else {
+    // Animate out before hiding
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideAnim, {
+        toValue: 50,
+        duration: 250,
+        easing: Easing.in(Easing.ease),
+        useNativeDriver: true,
+      }),
+    ]).start(() => {
+      // Actually hide modal after animation finishes
+      setModalVisible(false);
+    });
+  }
+}, [modalVisible]);
+
   return (
     <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-      <TouchableOpacity onPress={() => router.push("orgOnboarding")} style={styles.backButton}>
-        <Ionicons name="arrow-back" size={24} color="black" />
-      </TouchableOpacity>
-
-        <Text style={styles.headerTitle}>Campaign Details</Text>
-      </View>
-
-     {/* Fundraising Goal */}
-      <Text style={styles.inputLabel}>Fundraising Goal</Text>
-      <Text style={styles.goalCounter}>${fundraisingGoal.toLocaleString()}</Text>
-
-      <Slider
-        style={styles.slider}
-        minimumValue={100}
-        maximumValue={10000}
-        step={1}
-        value={fundraisingGoal}
-        onValueChange={setFundraisingGoal}
-        minimumTrackTintColor="#6741FF"   
-        maximumTrackTintColor="#D3D3D3"
-        thumbTintColor="#6741FF"
-      />
-
-
-      {/* Organization Type Selection */}
-      <Text style={styles.inputLabel}>What type of organization are you?</Text>
-      <TouchableOpacity style={styles.input} onPress={() => setModalVisible(true)}>
-        <Text style={{ color: selectedCategory ? "black" : "gray" }}>
-          {selectedCategory || "Select a category"}
-        </Text>
-      </TouchableOpacity>
-
-      {/* Campaign Description */}
-      <Text style={styles.inputLabel}>Campaign Description</Text>
-      <TextInput
-        style={styles.largeInput}
-        placeholder="Type here"
-        placeholderTextColor="gray"
-        multiline
-        value={campaignDescription}
-        onChangeText={handleDescChange}
-      />
-
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+      >
+        {/* Header */}
+        <View style={styles.header}>
+          {/*<Text style={styles.headerTitle}>Campaign Details</Text>*/}
+          <Goals width={450} height={400} />
+        </View>
+        <View style={styles.card}>
+        {/* Fundraising Goal */}
+        <Text style={styles.headerTitle}>Set your Fundraising Goal</Text>
+        <Text style={styles.goalCounter}>${fundraisingGoal.toLocaleString()}</Text>
+  
+        <Slider
+          style={styles.slider}
+          minimumValue={100}
+          maximumValue={10000}
+          step={100}
+          value={fundraisingGoal}
+          onValueChange={setFundraisingGoal}
+          minimumTrackTintColor="#6741FF"
+          maximumTrackTintColor="#D3D3D3"
+          thumbTintColor="#6741FF"
+        />
+  
+        {/* Organization Type Selection */}
+        <Text style={styles.inputLabel}>What type of organization are you?</Text>
+        <TouchableOpacity style={styles.input} onPress={() => setModalVisible(true)}>
+          <Text style={{ color: selectedCategory ? "black" : "gray" }}>
+            {selectedCategory || "Select a category"}
+          </Text>
+        </TouchableOpacity>
+  
+        {/* Campaign Description */}
+        <Text style={styles.inputLabel}>Campaign Description</Text>
+        <TextInput
+          style={styles.largeInput}
+          placeholder="Type here"
+          placeholderTextColor="gray"
+          multiline
+          value={campaignDescription}
+          onChangeText={handleDescChange}
+        />
+  
         <TouchableOpacity
-            style={[
+          style={[
             styles.continueButton,
-          (!selectedCategory || !campaignDescription) && styles.disabledButton,
+            (!selectedCategory || !campaignDescription) && styles.disabledButton,
           ]}
           onPress={handleFinished}
           disabled={!selectedCategory || !campaignDescription}
         >
           <Text style={styles.continueText}>Finished</Text>
         </TouchableOpacity>
-
+  
+        {/* Bottom padding for scroll clearance */}
+        <View style={{ height: 60 }} />
+        </View>
+      </ScrollView>
+  
       {/* Category Selection Modal */}
       <Modal
-        animationType="slide"
+        animationType="none"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
+        onRequestClose={closeModal}
       >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
+        <Animated.View style={[styles.modalContainer, { opacity: fadeAnim }]}>
+          <Animated.View style={[styles.modalContent, { transform: [{ translateY: slideAnim }] }]}>
             <Text style={styles.modalTitle}>Select a Category</Text>
-            <View style={styles.categoriesContainer}>
+            <ScrollView contentContainerStyle={styles.categoriesContainer}>
               {categoryRows.map((row, rowIndex) => (
                 <View key={rowIndex} style={styles.categoryRow}>
                   {row.map((item) => (
@@ -138,7 +206,7 @@ export default function CampaignDetailsScreen({ navigation }: any) {
                       ]}
                       onPress={() => {
                         setSelectedCategory(item);
-                        setModalVisible(false);
+                        closeModal();
                       }}
                     >
                       <Text style={styles.categoryText}>{item}</Text>
@@ -149,9 +217,9 @@ export default function CampaignDetailsScreen({ navigation }: any) {
                   ))}
                 </View>
               ))}
-            </View>
-          </View>
-        </View>
+            </ScrollView>
+          </Animated.View>
+        </Animated.View>
       </Modal>
     </View>
   );
@@ -160,12 +228,12 @@ export default function CampaignDetailsScreen({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 0,
     backgroundColor: "#fff",
   },
   header: {
     marginTop: 80,
-    flexDirection: "row",
+    //flexDirection: "row",
     alignItems: "center",
     marginBottom: 20,
   },
@@ -174,8 +242,9 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 20,
-    fontWeight: "regular",
-    marginLeft: 50,
+    fontWeight: "bold",
+    textAlign: "center",
+    alignSelf: "center",
   },
   inputLabel: {
     fontSize: 16,
@@ -276,5 +345,27 @@ const styles = StyleSheet.create({
   disabledButton: {
     backgroundColor: "#D3D3D3",
   },
+  scrollContent: {
+    paddingHorizontal: 0,
+    paddingBottom: 0,
+  },
+  card: {
+    flex: 1,
+    marginTop: -90, // Slight overlap with the image
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    backgroundColor: "#fff",
+    paddingVertical: 30,
+    paddingHorizontal: 20,
+    //alignItems: "center",
+    zIndex: 1,
+    // iOS shadow
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    // Android shadow
+    elevation: 5,
+  }
 });
 

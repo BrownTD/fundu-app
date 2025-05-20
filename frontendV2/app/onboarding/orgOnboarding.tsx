@@ -12,14 +12,21 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useRegistration } from "../../context/registrationContext";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  Keyboard,
+  TouchableWithoutFeedback,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 
 export default function CampaignSetupScreen() {
   const navigation = useNavigation();
   const router = useRouter();
   const { registrationData, setRegistrationData } = useRegistration();
+
 
   const [open, setOpen] = useState(false);
   const leadershipRoles = [
@@ -103,7 +110,13 @@ export default function CampaignSetupScreen() {
         );
   
         const fileInfo = await FileSystem.getInfoAsync(compressed.uri);
-        const fileSizeMB = fileInfo.size / (1024 * 1024);
+        let fileSizeMB = 0;
+        if (fileInfo.exists && typeof fileInfo.size === 'number') {
+          fileSizeMB = fileInfo.size / (1024 * 1024);
+        } else {
+          Alert.alert("File Error", "Unable to determine file size.");
+          return;
+        }
   
         if (fileSizeMB > 2) {
           Alert.alert("File Too Large", "Please upload an image under 2MB.");
@@ -154,7 +167,38 @@ export default function CampaignSetupScreen() {
   
       if (response.ok) {
         console.log("Organization created:", data);
-        router.push("campaignDetails");
+        const accessToken = await AsyncStorage.getItem("accessToken");
+      
+        if (registrationData.userId && registrationData.selectedRole) {
+          console.log("Selected user ID:", registrationData.userId);
+          console.log("Selected position to send:", registrationData.selectedRole);
+        
+          const updateRes = await fetch("https://www.funduhub.com/api/users/update_position/", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify({
+              user_id: registrationData.userId,
+              position: registrationData.selectedRole,
+            }),
+          });
+        
+          const text = await updateRes.text();
+          console.log("Raw position update response:", text);
+        
+          try {
+            const updateData = JSON.parse(text);
+            console.log("Parsed updateData:", updateData);
+          } catch (err) {
+            console.error("Failed to parse updateData:", err);
+          }
+        } else {
+          console.warn("Skipped update_position — missing userId or selectedRole");
+        }
+      
+        router.push("/onboarding/campaignDetails");
       } else {
         console.error("Error creating org:", data);
         Alert.alert("Upload Error", data.detail || "Failed to create organization.");
@@ -166,6 +210,12 @@ export default function CampaignSetupScreen() {
   };
 
   return (
+  <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1 }}
+    >
+
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
@@ -190,8 +240,10 @@ export default function CampaignSetupScreen() {
       items={leadershipRoles}
       value={registrationData.selectedRole}  // You can store the specific title if you want
       setValue={(callback) => {
-      const selectedValue = callback(registrationData.selectedRole);
-      handleChange("selectedRole", selectedValue); // Store for display/reference
+      
+      const value = callback(registrationData.selectedRole);
+      console.log("Dropdown selected position:", value)
+      handleChange("selectedRole", value); // Store for display/reference
       handleChange("role", "manager"); // All leadership roles map to 'manager'
       }}  
       placeholder="Select your role"
@@ -256,11 +308,13 @@ export default function CampaignSetupScreen() {
 {/* Already Registered */}
 <View style={styles.campaignContainer}>
   <Text style={styles.campaignText}>Organization already registered?</Text>
-  <TouchableOpacity onPress={() => router.push("signinScreen")}>
+  <TouchableOpacity onPress={() => router.push("/onboarding/campaignDetails")}>
     <Text style={styles.enterCodeText}> Enter Code</Text>
   </TouchableOpacity>
 </View>
     </View>
+  </KeyboardAvoidingView>
+  </TouchableWithoutFeedback>
   );
 }
 // Stylesheet

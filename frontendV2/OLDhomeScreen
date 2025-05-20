@@ -29,7 +29,8 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false}
+      contentContainerStyle={{  paddingBottom: 50 }}>
         {/* Top Bar */}
         <View style={styles.topBar}>
           <Text style={styles.campusLabel}>Campus</Text>
@@ -129,7 +130,7 @@ export default function HomeScreen() {
   </TouchableOpacity>
 ))}
         
-        </ScrollView>
+        </ScrollView >
         <View style={{ height: 0 }} />
       </ScrollView>
     </SafeAreaView>

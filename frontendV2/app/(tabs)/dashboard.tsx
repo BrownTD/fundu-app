@@ -8,11 +8,11 @@ import {
   Easing,
   StyleSheet,
 } from 'react-native';
-import QuickViewContainer from '../../components/QuickViewContainer';
-import DeepDiveContainer from '../../components/DeepDiveContainer';
-import KPICard from '../../components/KPICard';
-import ViewToggle from '../../components/ViewToggle';
-import ProfileIcon from '../../components/ProfileIcon';
+import QuickViewContainer from 'components/QuickViewContainer';
+import DeepDiveContainer from 'components/DeepDiveContainer';
+import KPICard from 'components/KPICard';
+import ViewToggle from 'components/ViewToggle';
+import ProfileIcon from 'components/ProfileIcon';
 
 
 export default function DashboardScreen() {
@@ -97,65 +97,69 @@ export default function DashboardScreen() {
   });
 
   return (
-    <Animated.View style={[styles.container, { backgroundColor }]}>
-      <ProfileIcon onPress={() => router.push('/(tabs)/profileDetails')} />
-      <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
-      <View style={styles.headerWrapper}>
-  <Text style={[styles.headerTitle, { color: textColor }]}>
-    Today{' '}
-    <Text style={styles.headerDate}>
-        {new Date().toLocaleDateString(undefined, {
-        month: 'long',
-        day: 'numeric',
-      })}
-    </Text>
-  </Text>
-</View>
-        {/* KPI Cards */}
-        <View style={{ paddingHorizontal: 20 }}>
-          <View style={styles.kpiRow}>
-            {cardAnimations.map((anim, index) => (
-              <Animated.View
-                key={index}
-                style={{
-                  opacity: anim.opacity,
-                  transform: [{ translateY: anim.translateY }],
-                  width: '47%',
-                  marginBottom: 10,
-                }}
-              >
-                <KPICard
-                  title={['Total Raised', 'Donors', 'Goal Progress', 'Avg Donation'][index]}
-                  value={['$7,500', '124', '75%', '$60'][index]}
-                  bg={cardBackground}
-                  textColor={cardTextColor}
-                />
-              </Animated.View>
-            ))}
+    <View style={{ flex: 1, position: 'relative' }}>
+      <Animated.View style={[styles.container, { backgroundColor }]}>
+        <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+          <View style={styles.headerWrapper}>
+            <Text style={[styles.headerTitle, { color: textColor }]}>
+              Today{' '}
+              <Text style={styles.headerDate}>
+                {new Date().toLocaleDateString(undefined, {
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </Text>
+            </Text>
+            <ProfileIcon onPress={() => router.push('/profileDetails')} />
           </View>
-        </View>
-
-        {/* View Toggle */}
-        <ViewToggle
-          isDeep={isDeep}
-          sliderPosition={sliderPosition}
-          onToggle={(view) => setActiveView(view)}
-        />
-
-        {/* View Container */}
-        <Animated.View
-          style={{ width: '100%', flex: 1, transform: [{ scale: viewAnim }] }}
-        >
-          {activeView === 'quick' ? (
-            <QuickViewContainer textColor={textColor} />
-          ) : (
-            <DeepDiveContainer textColor={textColor} />
-          )}
-        </Animated.View>
-      </ScrollView>
-    </Animated.View>
+  
+          {/* KPI Cards */}
+          <View style={{ paddingHorizontal: 20 }}>
+            <View style={styles.kpiRow}>
+              {cardAnimations.map((anim, index) => (
+                <Animated.View
+                  key={index}
+                  style={{
+                    opacity: anim.opacity,
+                    transform: [{ translateY: anim.translateY }],
+                    width: '47%',
+                    marginBottom: 10,
+                  }}
+                >
+                  <KPICard
+                    title={['Total Raised', 'Donors', 'Goal Progress', 'Avg Donation'][index]}
+                    value={['$7,500', '124', '75%', '$60'][index]}
+                    bg={cardBackground}
+                    textColor={cardTextColor}
+                  />
+                </Animated.View>
+              ))}
+            </View>
+          </View>
+  
+          {/* View Toggle */}
+          <ViewToggle
+            isDeep={isDeep}
+            sliderPosition={sliderPosition}
+            onToggle={(view) => setActiveView(view)}
+          />
+  
+          {/* View Container */}
+          <Animated.View
+            style={{ width: '100%', flex: 1, transform: [{ scale: viewAnim }] }}
+          >
+            {activeView === 'quick' ? (
+              <QuickViewContainer textColor={textColor} />
+            ) : (
+              <DeepDiveContainer textColor={textColor} />
+            )}
+          </Animated.View>
+        </ScrollView>
+      </Animated.View>
+    </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

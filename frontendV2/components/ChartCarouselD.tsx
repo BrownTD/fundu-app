@@ -127,13 +127,22 @@ export default function ChartCarousel({ scrollX }: Props) {
             width: CHART_WIDTH * 0.8,
             height: 240,
             chartConfig: {
-              backgroundColor: '#f0f0f0',
-              backgroundGradientFrom: '#fff',
-              backgroundGradientTo: '#fff',
-              color: (opacity = 1) => `rgba(103, 65, 255, ${opacity})`,
+              backgroundColor: '#212121',
+              backgroundGradientFrom: '#212121',
+              backgroundGradientTo: '#212121',
+              color: () => '#CDF202',
+              labelColor: () => '#CDF202',
               strokeWidth: 2,
               barPercentage: 0.5,
               decimalPlaces: 0,
+              propsForDots: {
+                r: '4',
+                strokeWidth: '2',
+                stroke: '#CDF202',
+              },
+              propsForBackgroundLines: {
+                stroke: '#3a3a3a', // subtle contrast lines if needed
+              },
             },
             style: {
               borderRadius: 16,
@@ -171,18 +180,19 @@ const styles = StyleSheet.create({
     height: 300,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#212121',       // deep dive background
     borderRadius: 16,
-    shadowColor: '#000',
+    shadowColor: '#000000',           // neon shadow
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 5, // For Android
+    shadowOpacity: 0.4,
+    shadowRadius: 10,
+    elevation: 6,
     marginVertical: 10,
   },
   title: {
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 10,
+    color: '#ffffff',                // deep dive text color
   },
 });

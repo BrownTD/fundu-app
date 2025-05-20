@@ -23,7 +23,10 @@
     "frontendV2/**/*",
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
-    "frontendV2/babel.config.js"
+    "frontendV2/babel.config.js",
+    "assets",
+    "declarations.d.ts",
+    "app", "components", "context", "hooks", "navigation", "screens", "store", "utils", "assets", "constants", "types"
   ],
   "extends": "expo/tsconfig.base"
 }

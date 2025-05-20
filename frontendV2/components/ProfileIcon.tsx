@@ -9,17 +9,17 @@ export default function ProfileIcon({ onPress }: Props) {
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <Image
-        source={require('../assets/images/profileImage.png')}
+        source={require('../assets/images/screenshot.png')}
         style={styles.image}
       />
     </TouchableOpacity>
   );
 }
 
+
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top: 90,
     right: 20,
     width: 40,
     height: 40,
