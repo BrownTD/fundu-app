@@ -34,6 +34,7 @@ class CustomUser(AbstractUser):
     password = models.CharField(max_length=128)
     ROLE_CHOICES = [('donor', 'Donor'), ('member', 'Member'), ('manager', 'Manager')]
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)
+    position = models.CharField(max_length=100, null=True, blank=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)

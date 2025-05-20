@@ -13,7 +13,7 @@ class CustomUserAdmin(UserAdmin):
     list_display = all_fields(CustomUser)
     list_filter = ('role', 'is_staff', 'is_superuser')
     search_fields = ('email', 'first_name', 'last_name')
-    ordering = ('email',)
+    ordering = ('user_id',)
 
     fieldsets = (
         (None, {'fields': ('email', 'password')}),

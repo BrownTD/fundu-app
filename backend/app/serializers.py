@@ -8,7 +8,7 @@ from .models import CustomUser, Campaign, Donation, Transaction, Organization
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['user_id', 'email', 'password', 'first_name', 'last_name', 'role']
+        fields = ['user_id', 'email', 'password', 'first_name', 'last_name', 'role','position']
         extra_kwargs = {
             'password': {'write_only': True}  # Prevent password from being returned in API responses
         }
