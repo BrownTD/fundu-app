@@ -1,110 +1,174 @@
 import React, { useState } from "react";
-import { 
-  View, 
-  Text, 
-  TextInput, 
-  TouchableOpacity, 
-  StyleSheet, 
-  Alert 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
 } from "react-native";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { getBackgroundColorAsync } from "expo-system-ui";
+import { useRegistration } from "../../context/registrationContext"; // Import global registration context
+import {router} from "expo-router";
 
-type RootStackParamList = {
-  SignUp: undefined;
-  Login: undefined;
-  CampaignSetup: undefined;
-};
-
-type SignUpScreenNavigationProp = StackNavigationProp<RootStackParamList, 'SignUp'>; 
+import {
+  Keyboard,
+  TouchableWithoutFeedback,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 
 export default function SignUpScreen() {
-  const navigation = useNavigation<SignUpScreenNavigationProp>();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const navigation = useNavigation();
+  const { registrationData, setRegistrationData } = useRegistration();
   const [showPassword, setShowPassword] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
 
-  // Password validation function
+  const handleChange = (field, value) => {
+    setRegistrationData((prev) => ({ ...prev, [field]: value }));
+  };
+
   const isValidPassword = (password: string) => {
     const hasLowercase = /[a-z]/.test(password);
     const hasUppercase = /[A-Z]/.test(password);
     const hasNumber = /[0-9]/.test(password);
     const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-    return password.length >= 8 && 
-           [hasLowercase, hasUppercase, hasNumber, hasSpecialChar].filter(Boolean).length >= 3;
+    return (
+      password.length >= 8 &&
+      [hasLowercase, hasUppercase, hasNumber, hasSpecialChar].filter(Boolean)
+        .length >= 3
+    );
   };
 
-  const handleSignUp = () => {
-    if (!name.trim()) {
-      Alert.alert("Error", "Please enter your name.");
+  const handleSignUp = async () => {
+    const { firstName, lastName, email, password, role } = registrationData;
+  
+    if (!firstName?.trim()) {
+      Alert.alert("Missing First Name", "Please enter your first name.");
       return;
     }
-    if (!email.includes("@") || !email.includes(".")) {
-      Alert.alert("Error", "Please enter a valid email address.");
+  
+    if (!lastName?.trim()) {
+      Alert.alert("Missing Last Name", "Please enter your last name.");
       return;
     }
+  
+    if (!email.includes("@")) {
+      Alert.alert("Invalid Email", "Please enter a valid email address.");
+      return;
+    }
+  
+    if (!password) {
+      Alert.alert("Missing Password", "Password cannot be empty.");
+      return;
+    }
+  
     if (!isValidPassword(password)) {
-      Alert.alert("Error", "Password must be at least 8 characters and include at least 3 of the required conditions.");
+      Alert.alert(
+        "Weak Password",
+        "Your password must be at least 8 characters and include at least 3 of the following: uppercase, lowercase, number, special character."
+      );
       return;
     }
-    
-    // Navigate to CampaignSetupScreen if inputs are valid
-    navigation.navigate("campaignSetup");
+  
+    try {
+      const response = await fetch("https://funduhub.com/api/register/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          first_name: firstName,
+          last_name: lastName,
+          email,
+          password,
+          role,
+        }),
+      });
+  
+      const data = await response.json();
+      console.log("Signup response payload:", data);
+      if (response.ok) {
+        const accessToken = data.access;
+  
+        // Save access token
+        await AsyncStorage.setItem("accessToken", accessToken);
+  
+        // Update context with user_id from backend response
+        setRegistrationData((prev) => ({
+          ...prev,
+          userId: data.user.user_id,
+        }));
+  
+        router.push("/transitions/signupSuccess");
+      } else {
+        Alert.alert("Registration Failed", JSON.stringify(data));
+      }
+    } catch (error) {
+      console.error("Signup error:", error);
+      Alert.alert("Network Error", "Unable to connect to the server. Please try again later.");
+    }
   };
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{ flex: 1 }}
+        >
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-      <TouchableOpacity onPress={() => navigation.navigate("login")} style={styles.backButton}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="black" />
-      </TouchableOpacity>
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>Sign Up</Text>
         <View style={styles.placeholder} />
       </View>
 
-      {/* Name Input */}
-      <Text style={styles.inputLabel}>Name</Text>
+      {/* Input Fields */}
+      {/* First Name */}
+      <Text style={styles.inputLabel}>First Name</Text>
       <TextInput
         style={styles.input}
         placeholder="Type here"
         placeholderTextColor="gray"
-        value={name}
-        onChangeText={setName}
+        value={registrationData.firstName}
+        onChangeText={(text) => handleChange("firstName", text)}
       />
 
-      {/* Email Input */}
+      {/* Last Name */}
+      <Text style={styles.inputLabel}>Last Name</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Type here"
+        placeholderTextColor="gray"
+        value={registrationData.lastName}
+        onChangeText={(text) => handleChange("lastName", text)}
+      />
+
+      {/* Email */}
       <Text style={styles.inputLabel}>Email</Text>
       <TextInput
         style={styles.input}
         placeholder="example@gmail.com"
         placeholderTextColor="gray"
         keyboardType="email-address"
-        value={email}
-        onChangeText={setEmail}
+        value={registrationData.email}
+        onChangeText={(text) => handleChange("email", text)}
       />
 
-      {/* Password Input */}
+      {/* Password */}
       <Text style={styles.inputLabel}>Password</Text>
-      <View
-        style={[
-          styles.passwordContainer, 
-          //isFocused && styles.passwordFocused
-        ]}
-      >
+      <View style={styles.passwordContainer}>
         <TextInput
           style={styles.passwordInput}
           placeholder="Enter password"
           placeholderTextColor="gray"
           secureTextEntry={!showPassword}
-          value={password}
-          onChangeText={setPassword}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
+          value={registrationData.password}
+          onChangeText={(text) => handleChange("password", text)}
         />
         <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.eyeIcon}>
           <Ionicons name={showPassword ? "eye-off" : "eye"} size={22} color="gray" />
@@ -126,17 +190,20 @@ export default function SignUpScreen() {
         <Text style={styles.signUpText}>Sign Up</Text>
       </TouchableOpacity>
 
-      {/* Already a subscriber? Log In */}
+      {/* Already a member? Log In */}
       <View style={styles.loginContainer}>
         <Text style={styles.alreadySubscriber}>Already a member? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate("signinScreen")}>
+        <TouchableOpacity onPress={() => router.push("/onboarding/signinScreen")}>
           <Text style={styles.loginText}>Log In</Text>
         </TouchableOpacity>
       </View>
     </View>
-  );
-}
+  </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
+    );
+  }
 
+// Styling
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -214,7 +281,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   passwordCriteria: {
-    marginTop:20,
+    marginTop: 20,
     fontSize: 14,
     color: "gray",
     marginBottom: 5,
@@ -245,7 +312,7 @@ const styles = StyleSheet.create({
   alreadySubscriber: {
     fontSize: 14,
     color: "gray",
-    marginLeft:85,
+    marginLeft: 85,
   },
   loginText: {
     fontSize: 14,

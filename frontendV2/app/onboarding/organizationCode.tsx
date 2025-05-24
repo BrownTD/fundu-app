@@ -1,29 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useRouter } from 'expo-router';
-
-const generateCampaignCode = () => {
-  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const randomLetters =
-    letters[Math.floor(Math.random() * letters.length)] +
-    letters[Math.floor(Math.random() * letters.length)];
-  const randomNumbers = Math.floor(100 + Math.random() * 900).toString();
-  return randomLetters + randomNumbers;
-};
+import { useRegistration } from "../../context/registrationContext"; // 👈 import context
 
 export default function CampaignCodeScreen() {
   const router = useRouter();
-  const [campaignCode] = useState(generateCampaignCode().split("").join(" "));
+  const { registrationData } = useRegistration(); // 👈 get org code
+  const formattedCode = registrationData.organizationCode.split("").join(" ");
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Campaign Code</Text>
+      <Text style={styles.title}>Organization Code</Text>
       <Text style={styles.description}>
-        Your Campaign Code lets your team access progress and donation tools. Keep it safe and only share it with trusted members. Copy it down, you'll need it later.
+        Your Organization Code lets your team access progress and donation dashboard. Keep it safe and only share it with trusted members. Copy it down, you'll need it later.
       </Text>
 
       <View style={styles.codeContainer}>
-        {campaignCode.split(" ").map((char, index) => (
+        {formattedCode.split(" ").map((char, index) => (
           <View key={index} style={styles.codeCircle}>
             <Text style={styles.codeChar}>{char}</Text>
           </View>
@@ -32,13 +25,14 @@ export default function CampaignCodeScreen() {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => router.push("homeScreen")}
+        onPress={() => router.push("/transitions/campaignSuccess")}
       >
         <Text style={styles.buttonText}>Got it!</Text>
       </TouchableOpacity>
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

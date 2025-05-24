@@ -3,126 +3,70 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-import HapticTab from '@/components/HapticTab';
-import TabBarBackground from '@/components/ui/TabBarBackground.ios';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import HapticTab from 'components/HapticTab';
+import TabBarBackground from 'components/TabBarBackground.IOS';
+import { RegistrationProvider } from 'context/registrationContext';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            position: 'absolute',
-          },
-          default: {},
-        }),
-      }}
-    >
-      {/* Visible Tabs */}
-      <Tabs.Screen
-  name="homeScreen"
-  options={{
-    title: 'Home',
-    tabBarIcon: ({ color, size }) => (
-      <Ionicons name="home-outline" color={color} size={size} />
-    ),
-  }}
-  />
-  <Tabs.Screen
-  name="dashboard"
-  options={{
-    title: 'Dashboard',
-    tabBarIcon: ({ color, size }) => (
-      <Ionicons name="bar-chart-outline" color={color} size={size} />
-    ),
-  }}
+    <RegistrationProvider>
+      <Tabs
+        screenOptions={({ route }) => ({
+          headerShown: false,
+          animation: 'fade',
+          tabBarActiveTintColor: '#6741FF',
+          tabBarShowLabel: true,
+          tabBarLabel: getTabLabel(route.name),
+          tabBarIcon: ({ color, size }) => getTabIcon(route.name, color, size),
+          tabBarButton: (props) => <HapticTab {...props} />,
+          tabBarBackground: () => <TabBarBackground />,
+          tabBarStyle: Platform.select({
+            ios: {
+              backgroundColor: 'transparent',
+              borderTopWidth: 0,
+              position: 'absolute',
+              elevation: 0,
+              height: 75,
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: -4 },
+              shadowOpacity: 0.1,
+              shadowRadius: 20,
+              overflow: 'hidden',
+            },
+            default: {},
+          }),
+        })}
       />
-      <Tabs.Screen
-        name="organizationProfile"
-        options={{
-          tabBarStyle: { display: 'none' },
-        }}
-      />
-      <Tabs.Screen
-        name="index"
-        options={{
-          tabBarStyle: { display: 'none' },
-        }}
-      />
-      <Tabs.Screen
-        name="profileDetails"
-       // options={{
-       //   tabBarStyle: { display: 'none' },
-       // }}
-      />
-
-      {/* Hidden Screens */}
-      <Tabs.Screen
-        name="campaignQrCode"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="campaignCode"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="campaignDetails"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="campaignSetup"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="customGift"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="detailsScreen"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="donationSuccess"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="donorProfile"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="historyScreen"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="login"
-       // options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="paymentScreen"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="selectGift"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="signinScreen"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-      <Tabs.Screen
-        name="signup"
-        options={{ tabBarStyle: { display: 'none' } }}
-      />
-    </Tabs>
-    
+    </RegistrationProvider>
   );
 }
 
+function getTabLabel(name: string) {
+  switch (name) {
+    case 'dashboard':
+      return 'Dashboard';
+    case 'detailsScreen':
+      return 'Campaigns';
+    case 'organizationProfile':
+      return 'Organization';
+    case 'funding':
+      return 'Funding';
+    default:
+      return '';
+  }
+}
+
+function getTabIcon(name: string, color: string, size: number) {
+  switch (name) {
+    case 'dashboard':
+      return <Ionicons name="bar-chart" size={size} color={color} />;
+    case 'organizationProfile':
+      return <Ionicons name="business" size={size} color={color} />;
+    case 'detailsScreen':
+      return <Ionicons name="megaphone" size={size} color={color} />;
+    case 'funding':
+      return <Ionicons name="cash" size={size} color={color} />;
+    default:
+      return <Ionicons name="ellipse-outline" size={size} color={color} />;
+  }
+}

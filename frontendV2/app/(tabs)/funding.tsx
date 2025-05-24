@@ -9,6 +9,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useRouter } from "expo-router";
+import ProfileIcon from 'components/ProfileIcon';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -29,19 +30,14 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false}
+      contentContainerStyle={{  paddingBottom: 50 }}>
         {/* Top Bar */}
         <View style={styles.topBar}>
           <Text style={styles.campusLabel}>Campus</Text>
           <Text style={styles.campusName}>UNC Charlotte</Text>
         {/* Profile Icon*/}
-          <TouchableOpacity style={styles.profileIcon} onPress={() => router.push("profileDetails")}>
-            {/* Profile icon (using campaign.png for testing) */}
-            <Image
-              source={require("../../assets/images/profileImage.png")}
-              style={styles.iconImage}
-            />
-          </TouchableOpacity>
+          <ProfileIcon onPress={() => router.push('/profileDetails')} />
         </View>
 
         {/* Big Featured Card */}
@@ -129,7 +125,7 @@ export default function HomeScreen() {
   </TouchableOpacity>
 ))}
         
-        </ScrollView>
+        </ScrollView >
         <View style={{ height: 0 }} />
       </ScrollView>
     </SafeAreaView>
@@ -141,49 +137,36 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+    paddingHorizontal: 0,
   },
 
   // Top Bar
   topBar: {
-    flexDirection: "column",
+    flexDirection: "row",
     alignItems: "flex-start",
     paddingHorizontal: 20,
-    paddingTop: 20,
-    marginBottom: 35,
-    marginLeft: 20,
+    marginTop: 28,
+    marginBottom: 10,
   },
   campusLabel: {
-    fontSize: 14,
-    color: "gray",
-    marginRight: 5,
+    fontSize: 32,
+    fontWeight: 'bold',
   },
   campusName: {
-    fontSize: 18,
-    fontWeight: "bold",
-    flex: 1, // pushes the icon to the right
+    fontSize: 20,
+    fontWeight: 'bold',
+    opacity: 0.6,
+    marginLeft: 10,
+    marginTop: 11,
   },
-  profileIcon: {
-    position: "absolute",
-    top: 20,
-    right: 20,
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    overflow: "hidden",
-    backgroundColor: "#ddd", // Optional fallback
-  },
-  iconImage: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover",
-  },
+
 
   // Featured Card
   featuredCard: {
     backgroundColor: "#ffffff",
     marginHorizontal: 20,
     borderRadius: 10,
-    padding: 20,
+    padding: 0,
     marginBottom: 20,
     position: "relative",
     overflow: "hidden",
@@ -196,11 +179,12 @@ const styles = StyleSheet.create({
   featuredTitle: {
     fontSize: 24,
     fontWeight: "bold",
-    maxWidth: "60%",
-    top: 80,
+    maxWidth: "70%",
+    top: 60,
     alignSelf: "flex-start",
     marginLeft: 10,
     zIndex: 1,
+    marginTop: 10,
   },
   exploreButton: {
     backgroundColor: "#6741FF",
@@ -208,7 +192,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderRadius: 20,
     alignSelf: "flex-start",
-    bottom: 80,
+    bottom: 100,
     marginLeft: 10,
   },
   exploreButtonText: {
@@ -221,11 +205,11 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     justifyContent: "center",
     flexDirection: "column",
-    right: 10,
     bottom: 20,
-    width: 325,
-    height: 185,
-    borderRadius: 20
+    width: "100%",
+    height: "100%",
+    borderRadius: 20,
+    marginTop: 10,
 
   },
 
@@ -234,7 +218,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-evenly",
-    marginHorizontal: 20,
+    marginHorizontal: 10,
     marginBottom: -70,
   },
   categoryItem: {
@@ -262,7 +246,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginHorizontal: 20,
+    marginHorizontal: 10,
     marginBottom: 10,
   },
   sectionTitle: {
@@ -276,7 +260,7 @@ const styles = StyleSheet.create({
 
   // Nearby Card
   nearbyCard: {
-    marginHorizontal: 20,
+    marginHorizontal: 10,
     marginBottom: 20,
     borderRadius: 10,
     overflow: "hidden",
@@ -295,25 +279,25 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 14,
     fontWeight: "bold",
-    marginTop: -15,
+    //marginTop: -15,
     marginHorizontal: 10,
-    marginLeft: 26
+    //marginLeft: 26
   },
   cardSubtitle: {
     fontSize: 12,
     color: "gray",
     marginHorizontal: 10,
     marginBottom: 18,
-    marginLeft: 26
+    //marginLeft: 26
   },
 
   // Popular Organization
   popularOrgHeader: {
-    marginHorizontal: 20,
+    marginHorizontal: 10,
     marginBottom: 10,
   },
   popularOrgScroll: {
-    paddingLeft: 20,
+    paddingLeft: 15,
     marginBottom: 30,
   },
   popularOrgItem: {

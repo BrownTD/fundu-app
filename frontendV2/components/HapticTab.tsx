@@ -4,16 +4,18 @@ import { PlatformPressable } from '@react-navigation/elements';
 import * as Haptics from 'expo-haptics';
 import React from 'react';
 
-export default function HapticTab(props: BottomTabBarButtonProps) {
+export default function HapticTab({ onPress, children, ...rest }: BottomTabBarButtonProps) {
   return (
     <PlatformPressable
-      {...props}
+      {...rest}
       onPressIn={(ev) => {
-        if (process.env.EXPO_OS === 'ios') {
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-        }
-        props.onPressIn?.(ev);
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        rest.onPressIn?.(ev);
       }}
-    />
+      onPress={onPress}
+      style={rest.style}
+    >
+      {children}
+    </PlatformPressable>
   );
 }
