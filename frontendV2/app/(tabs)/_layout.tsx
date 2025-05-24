@@ -49,6 +49,8 @@ function getTabLabel(name: string) {
       return 'Campaigns';
     case 'organizationProfile':
       return 'Organization';
+    case 'funding':
+      return 'Funding';
     default:
       return '';
   }
@@ -62,6 +64,8 @@ function getTabIcon(name: string, color: string, size: number) {
       return <Ionicons name="business" size={size} color={color} />;
     case 'detailsScreen':
       return <Ionicons name="megaphone" size={size} color={color} />;
+    case 'funding':
+      return <Ionicons name="cash" size={size} color={color} />;
     default:
       return <Ionicons name="ellipse-outline" size={size} color={color} />;
   }

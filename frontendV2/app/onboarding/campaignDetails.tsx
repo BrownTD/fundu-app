@@ -15,6 +15,12 @@ import { useEffect, useRef } from "react";
 import { Animated, Easing } from "react-native";
 import Goals from '../../assets/images/goalsCuate.svg';
 
+import { useRegistration } from "../../context/registrationContext";
+
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+
 const categories = [
   "Academic",
   "Cultural",
@@ -36,6 +42,8 @@ const chunkArray = (arr: string[], size: number) => {
 };
 
 export default function CampaignDetailsScreen({ }: any) {
+  const { registrationData } = useRegistration();
+
   const [fundraisingGoal, setFundraisingGoal] = useState(100);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [modalVisible, setModalVisible] = useState(false);
@@ -47,8 +55,7 @@ export default function CampaignDetailsScreen({ }: any) {
     "Are all your details correct?",
     [
       { text: "No", style: "cancel" },
-      { text: "Yes", onPress: () => router.push("/onboarding/organizationCode")
-      },
+      { text: "Yes", onPress: () => submitCampaign() },
     ],
     { cancelable: true }
     );
@@ -119,6 +126,52 @@ useEffect(() => {
     });
   }
 }, [modalVisible]);
+
+const submitCampaign = async () => {
+  if (!selectedCategory || !campaignDescription || !registrationData.organizationId) {
+    Alert.alert("Missing Info", "Please complete all fields before submitting.");
+    return;
+  }
+
+  try {
+    const accessToken = await AsyncStorage.getItem("accessToken");
+
+    const response = await fetch("https://www.funduhub.com/api/campaigns/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        org_name: registrationData.organizationName,
+        organization: registrationData.organizationId,
+        title: `${selectedCategory} Campaign`,
+        description: campaignDescription,
+        donation_goal: fundraisingGoal,
+      }),
+    });
+
+    const data = await response.json();
+    await fetch(`https://www.funduhub.com/api/organizations/${registrationData.organizationId}/update_category/`, {
+  method: "PATCH",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ category: selectedCategory }),
+});
+
+    if (response.ok) {
+      console.log("Campaign created:", data);
+      router.push("/onboarding/organizationCode");
+    } else {
+      console.error("Error response:", data);
+      Alert.alert("Upload Error", data.detail || "Failed to create campaign.");
+    }
+  } catch (err) {
+    console.error("Network error:", err);
+    Alert.alert("Network Error", "Please check your internet connection.");
+  }
+};
 
   return (
     <View style={styles.container}>

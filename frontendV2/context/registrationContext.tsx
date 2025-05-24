@@ -7,6 +7,9 @@ type RegistrationData = {
   email: string;
   password: string;
   organizationName: string;
+  organizationId: number;
+  organizationType: string;
+  organizationCode: string;
   role: string;
   userId: number;
   selectedRole: string; 
@@ -20,6 +23,9 @@ const defaultValues: RegistrationData = {
   email: "",
   password: "",
   organizationName: "",
+  organizationId: 0,
+  organizationType: "",
+  organizationCode: "",
   role: "",
   selectedRole: "", 
   college: "",

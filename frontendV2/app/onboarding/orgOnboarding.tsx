@@ -1,6 +1,6 @@
 import * as ImagePicker from 'expo-image-picker';
 import { Alert } from 'react-native';
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import { useRouter } from 'expo-router';
 import * as ImageManipulator from 'expo-image-manipulator';
 import * as FileSystem from 'expo-file-system';
@@ -21,11 +21,18 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import { LayoutAnimation, UIManager } from 'react-native';
+
+
 
 export default function CampaignSetupScreen() {
   const navigation = useNavigation();
   const router = useRouter();
   const { registrationData, setRegistrationData } = useRegistration();
+  const [collegeItems, setCollegeItems] = useState<{ label: string; value: string }[]>([]);
+  const [collegeOpen, setCollegeOpen] = useState(false);
+  const [selectedState, setSelectedState] = useState<string | null>(null);
+  const [allColleges, setAllColleges] = useState<{ name: string; state: string }[]>([]);
 
 
   const [open, setOpen] = useState(false);
@@ -66,6 +73,102 @@ export default function CampaignSetupScreen() {
     { label: 'Faculty Advisor', value: 'faculty_advisor' },
     { label: 'Graduate Advisor', value: 'graduate_advisor' },
   ];
+  const [stateOpen, setStateOpen] = useState(false);
+  const states = [
+  { label: "Alabama", value: "AL" },
+  { label: "Alaska", value: "AK" },
+  { label: "Arizona", value: "AZ" },
+  { label: "Arkansas", value: "AR" },
+  { label: "California", value: "CA" },
+  { label: "Colorado", value: "CO" },
+  { label: "Connecticut", value: "CT" },
+  { label: "Delaware", value: "DE" },
+  { label: "Florida", value: "FL" },
+  { label: "Georgia", value: "GA" },
+  { label: "Hawaii", value: "HI" },
+  { label: "Idaho", value: "ID" },
+  { label: "Illinois", value: "IL" },
+  { label: "Indiana", value: "IN" },
+  { label: "Iowa", value: "IA" },
+  { label: "Kansas", value: "KS" },
+  { label: "Kentucky", value: "KY" },
+  { label: "Louisiana", value: "LA" },
+  { label: "Maine", value: "ME" },
+  { label: "Maryland", value: "MD" },
+  { label: "Massachusetts", value: "MA" },
+  { label: "Michigan", value: "MI" },
+  { label: "Minnesota", value: "MN" },
+  { label: "Mississippi", value: "MS" },
+  { label: "Missouri", value: "MO" },
+  { label: "Montana", value: "MT" },
+  { label: "Nebraska", value: "NE" },
+  { label: "Nevada", value: "NV" },
+  { label: "New Hampshire", value: "NH" },
+  { label: "New Jersey", value: "NJ" },
+  { label: "New Mexico", value: "NM" },
+  { label: "New York", value: "NY" },
+  { label: "North Carolina", value: "NC" },
+  { label: "North Dakota", value: "ND" },
+  { label: "Ohio", value: "OH" },
+  { label: "Oklahoma", value: "OK" },
+  { label: "Oregon", value: "OR" },
+  { label: "Pennsylvania", value: "PA" },
+  { label: "Rhode Island", value: "RI" },
+  { label: "South Carolina", value: "SC" },
+  { label: "South Dakota", value: "SD" },
+  { label: "Tennessee", value: "TN" },
+  { label: "Texas", value: "TX" },
+  { label: "Utah", value: "UT" },
+  { label: "Vermont", value: "VT" },
+  { label: "Virginia", value: "VA" },
+  { label: "Washington", value: "WA" },
+  { label: "West Virginia", value: "WV" },
+  { label: "Wisconsin", value: "WI" },
+  { label: "Wyoming", value: "WY" }
+];
+
+useEffect(() => {
+  LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+}, [collegeOpen, stateOpen]);
+
+useEffect(() => {
+  const fetchColleges = async () => {
+    try {
+      const response = await fetch("https://www.funduhub.com/api/colleges/");
+      const data = await response.json();
+
+      setAllColleges(data); // Full list stored here
+
+      // show all colleges before a state is selected
+      setCollegeItems(
+        data.map((college) => ({
+          label: college.name,
+          value: college.name
+        }))
+      );
+    } catch (err) {
+      console.error("Failed to fetch colleges:", err);
+      Alert.alert("Error", "Unable to load colleges. Please try again.");
+    }
+  };
+
+  fetchColleges();
+}, []);
+
+
+useEffect(() => {
+  if (selectedState) {
+    const filtered = allColleges
+      .filter((college) => college.state === selectedState)
+      .map((college) => ({
+        label: college.name,
+        value: college.name
+      }));
+    setCollegeItems(filtered);
+  } else {
+    setCollegeItems([]);
+  }
+}, [selectedState, allColleges]);
 
   const handleDropdownSelect = (role: string) => {
     // Map all selected leadership roles to the backend role: 'manager'
@@ -154,7 +257,7 @@ export default function CampaignSetupScreen() {
   
     try {
       console.log("Submitting with user ID:", registrationData.userId);
-  
+  {/*Create organization*/}
       const response = await fetch("https://www.funduhub.com/api/organizations/", {
         method: "POST",
         headers: {
@@ -167,12 +270,21 @@ export default function CampaignSetupScreen() {
   
       if (response.ok) {
         console.log("Organization created:", data);
+        setRegistrationData(prev => ({
+          ...prev,
+          organizationName: data.org_name,
+          organizationId: data.organization_id,
+          organizationCode: data.code, 
+        }));
+  
+        {/*Update user with org ID*/}
         const accessToken = await AsyncStorage.getItem("accessToken");
       
         if (registrationData.userId && registrationData.selectedRole) {
           console.log("Selected user ID:", registrationData.userId);
           console.log("Selected position to send:", registrationData.selectedRole);
-        
+
+        {/*Update user position*/}
           const updateRes = await fetch("https://www.funduhub.com/api/users/update_position/", {
             method: "POST",
             headers: {
@@ -251,18 +363,51 @@ export default function CampaignSetupScreen() {
       dropDownContainerStyle={styles.dropdownContainer}
       textStyle={{ fontSize: 16, color: "#000" }}
       placeholderStyle={{ fontSize: 16, color: "gray" }}
-      zIndex={1000}
+      zIndex={1000} // Ensure dropdown is above other elements
       />
-
+    {/* State Dropdown */}
+<Text style={styles.inputLabel}>State</Text>
+<DropDownPicker
+  open={stateOpen}
+  value={selectedState}
+  items={states}
+  setOpen={setStateOpen}
+  setValue={setSelectedState}
+  placeholder="Select your state"
+  style={styles.dropdown}
+  dropDownContainerStyle={styles.dropdownContainer}
+  dropDownDirection="BOTTOM"
+  listMode="SCROLLVIEW"
+  zIndex={2000}
+/>
       {/* College */}
       <Text style={styles.inputLabel}>College/University</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Type here"
-        placeholderTextColor="gray"
-        value={registrationData.college}
-        onChangeText={(text) => handleChange("college", text)}
-      />
+      <DropDownPicker
+      open={collegeOpen}
+      value={registrationData.college}
+      items={collegeItems}
+      setOpen={setCollegeOpen}
+      setValue={(callback) =>
+      setRegistrationData(prev => ({
+        ...prev,
+        college: callback(prev.college),
+        }))
+      }
+      setItems={setCollegeItems}
+      placeholder="Select your college"
+      dropDownDirection="BOTTOM"
+      listMode="SCROLLVIEW"
+      placeholderStyle={{ fontSize: 16, color: "gray" }}
+      searchable={true}
+      searchPlaceholder = "Search"
+      searchTextInputProps={{
+        placeholderTextColor: "gray",
+        style: { fontSize: 16, color: "#000" },
+      }}
+      style={styles.input}
+      dropDownContainerStyle={styles.dropdownContainer}
+/>
+
 
       {/* Bio */}
       <Text style={styles.inputLabel}>Organization Bio</Text>

@@ -1,19 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useRouter } from 'expo-router';
-
-const generateCampaignCode = () => {
-  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const randomLetters =
-    letters[Math.floor(Math.random() * letters.length)] +
-    letters[Math.floor(Math.random() * letters.length)];
-  const randomNumbers = Math.floor(100 + Math.random() * 900).toString();
-  return randomLetters + randomNumbers;
-};
+import { useRegistration } from "../../context/registrationContext"; // 👈 import context
 
 export default function CampaignCodeScreen() {
   const router = useRouter();
-  const [campaignCode] = useState(generateCampaignCode().split("").join(" "));
+  const { registrationData } = useRegistration(); // 👈 get org code
+  const formattedCode = registrationData.organizationCode.split("").join(" ");
 
   return (
     <View style={styles.container}>
@@ -23,7 +16,7 @@ export default function CampaignCodeScreen() {
       </Text>
 
       <View style={styles.codeContainer}>
-        {campaignCode.split(" ").map((char, index) => (
+        {formattedCode.split(" ").map((char, index) => (
           <View key={index} style={styles.codeCircle}>
             <Text style={styles.codeChar}>{char}</Text>
           </View>
@@ -32,13 +25,14 @@ export default function CampaignCodeScreen() {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => router.push("transitions/campaignSuccess")}
+        onPress={() => router.push("/transitions/campaignSuccess")}
       >
         <Text style={styles.buttonText}>Got it!</Text>
       </TouchableOpacity>
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
