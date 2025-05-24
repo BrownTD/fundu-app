@@ -9,6 +9,7 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '../hooks/useColorScheme';
 import { RegistrationProvider } from '../context/registrationContext';
+import { AuthProvider } from '../context/authContext';
 
 
 SplashScreen.preventAutoHideAsync();
@@ -29,9 +30,11 @@ export default function RootLayout() {
   if (!loaded) return null;
 
   return (
+    <AuthProvider>
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <RegistrationProvider>
         <Stack screenOptions={{ headerShown: false }}>
+
           <Stack.Screen name="index" />
           <Stack.Screen name="roleSelect"/>
           <Stack.Screen name="onboarding/managerpipe"  />
@@ -52,5 +55,6 @@ export default function RootLayout() {
 
       <StatusBar style="auto" />
     </ThemeProvider>
+    </AuthProvider>
   );
 }

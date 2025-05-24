@@ -48,6 +48,8 @@ export default function CampaignDetailsScreen({ }: any) {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [modalVisible, setModalVisible] = useState(false);
   const [campaignDescription, setCampaignDescription] = useState("");
+  const [campaignTitle, setCampaignTitle] = useState("");
+
   const router = useRouter();
   const handleFinished = () => {
     Alert.alert(
@@ -128,7 +130,7 @@ useEffect(() => {
 }, [modalVisible]);
 
 const submitCampaign = async () => {
-  if (!selectedCategory || !campaignDescription || !registrationData.organizationId) {
+  if (!selectedCategory || !campaignDescription || !registrationData.organizationId || !campaignTitle) {
     Alert.alert("Missing Info", "Please complete all fields before submitting.");
     return;
   }
@@ -145,7 +147,7 @@ const submitCampaign = async () => {
       body: JSON.stringify({
         org_name: registrationData.organizationName,
         organization: registrationData.organizationId,
-        title: `${selectedCategory} Campaign`,
+        title: campaignTitle,
         description: campaignDescription,
         donation_goal: fundraisingGoal,
       }),
@@ -209,7 +211,16 @@ const submitCampaign = async () => {
             {selectedCategory || "Select a category"}
           </Text>
         </TouchableOpacity>
-  
+          {/* Campaign Title */}
+<Text style={styles.inputLabel}>Campaign Title</Text>
+<TextInput
+  style={styles.input}
+  placeholder="Give your campaign a name"
+  placeholderTextColor="gray"
+  value={campaignTitle}
+  onChangeText={setCampaignTitle}
+/>
+
         {/* Campaign Description */}
         <Text style={styles.inputLabel}>Campaign Description</Text>
         <TextInput

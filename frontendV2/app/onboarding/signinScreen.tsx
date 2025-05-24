@@ -18,6 +18,12 @@ export default function SignInScreen({ navigation }: any) {
   const [campaignCode, setCampaignCode] = useState("");
   const [secureText, setSecureText] = useState(true);
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const verifyStorage = async () => {
+  const token = await SecureStore.getItemAsync("accessToken");
+  console.log("Token stored:", token);
+};
+
 
 // Store token in SecureStore
 const saveToken = async (key: string, value: any) => {
@@ -32,6 +38,14 @@ const saveToken = async (key: string, value: any) => {
 }
   
 const handleSignIn = async () => {
+  if (!email || !password) {
+  Alert.alert("Missing Fields", "Please enter both email and password.");
+  return;
+}
+  if (!email.includes("@")) {
+    Alert.alert("Invalid Email", "Please enter a valid email address.");
+    return;
+  }
   try {
     const response = await fetch('https://www.funduhub.com/api/login/', {
       method: 'POST',
@@ -58,18 +72,29 @@ const handleSignIn = async () => {
 
     if (!response.ok) {
       Alert.alert('Login Failed', data.detail || 'Invalid credentials');
+      setLoading(false); 
       return;
     }
 
     // STEP 4: Save tokens as strings
     await saveToken('accessToken', String(data.access));
     await saveToken('refreshToken', String(data.refresh));
+    await verifyStorage();
 
-    router.push('/(tabs)/dashboard');
+  if (data.user?.role === "manager") {
+  router.push('/dashboard');
+} else {
+  router.push('/dashboard');
+}
+
   } catch (err: any) {
     Alert.alert('Login Error', err.message || 'Something went wrong');
+    setLoading(false); 
   }
+  setLoading(true);
 };
+
+
 
   return (
     <View style={styles.container}>
@@ -118,28 +143,19 @@ const handleSignIn = async () => {
           <Text style={styles.forgotPassword}>Forgot password?</Text>
       </TouchableOpacity>
 
-      {/* Campaign Code Input */}
-      <Text style={styles.inputLabel}>Campaign Code</Text>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter Code"
-          placeholderTextColor="gray"
-          autoCapitalize="characters"
-          value={campaignCode}
-          onChangeText={setCampaignCode}
-        />
-      </View>
-
       {/* Sign In Button */}
-      <TouchableOpacity style={styles.signInButton} onPress={handleSignIn}>
-        <Text style={styles.signInText}>Sign in</Text>
-      </TouchableOpacity>
+      <TouchableOpacity
+  style={[styles.signInButton, loading && { opacity: 0.6 }]}
+  onPress={handleSignIn}
+  disabled={loading}
+>
+  <Text style={styles.signInText}>{loading ? "Signing in..." : "Sign in"}</Text>
+</TouchableOpacity>
 
       {/* Sign Up Link */}
       <View style={styles.signUpContainer}>
         <Text style={styles.signUpText}>Don't have an account yet?</Text>
-        <TouchableOpacity onPress={() => router.push("onboarding/managerpipe")}>
+        <TouchableOpacity onPress={() => router.push("/onboarding/managerpipe")}>
           <Text style={styles.signUpLink}> Sign up</Text>
         </TouchableOpacity>
       </View>
