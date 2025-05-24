@@ -34,6 +34,7 @@ class CustomUser(AbstractUser):
     password = models.CharField(max_length=128)
     ROLE_CHOICES = [('donor', 'Donor'), ('member', 'Member'), ('manager', 'Manager')]
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)
+    position = models.CharField(max_length=100, null=True, blank=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -77,6 +78,7 @@ class Organization(models.Model):
         null=True
     )
     code = models.CharField(max_length=10, unique=True, default=generate_org_code)
+    category = models.CharField(max_length=50, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     manager_uid = models.ForeignKey(CustomUser, on_delete=models.RESTRICT, db_column='manager_uid')
@@ -168,3 +170,18 @@ class Transaction(models.Model):
 
     class Meta:
         db_table = 'transactions'
+
+# ---------------- COLLEGES ---------------- #
+class College(models.Model):
+    name = models.CharField(max_length=255)  # INSTNM
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=2)   # STABBR
+    zip_code = models.CharField(max_length=10)
+    website = models.URLField(blank=True, null=True)            # INSTURL
+    latitude = models.FloatField(blank=True, null=True)
+    longitude = models.FloatField(blank=True, null=True)
+    ipeds_unitid = models.CharField(max_length=10, blank=True)  #UNITID
+
+    def __str__(self):
+        return self.name
+

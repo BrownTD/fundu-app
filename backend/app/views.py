@@ -1,23 +1,25 @@
-# views.py — Cleaned Up and Organized
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.contrib.auth import get_user_model
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
-from .models import Campaign, Donation, Transaction, Organization
+from .models import Campaign, Donation, Transaction, Organization, CustomUser, College
+from .chatbot.client import chat_with_gpt
+from django.shortcuts import get_object_or_404
 from .serializers import (
-    UserSerializer, 
-    CampaignSerializer, 
-    DonationSerializer, 
+    UserSerializer,
+    CampaignSerializer,
+    DonationSerializer,
     TransactionSerializer,
-OrganizationSerializer
+    OrganizationSerializer,
+    CollegeSerializer,
 )
-
 import logging
-logger = logging.getLogger(__name__)
 
+logger = logging.getLogger(__name__)
 User = get_user_model()
 
 # -------------------------------
@@ -27,9 +29,10 @@ class RegisterView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        print("INCOMING DATA:", request.data)  # log request data to console
-        serializer = UserSerializer(data=request.data)
+        print("INCOMING DATA:", request.data)
+        print("HOST HEADER:", request.META.get("HTTP_HOST"))
 
+        serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
             refresh = RefreshToken.for_user(user)
@@ -39,7 +42,7 @@ class RegisterView(APIView):
                 "refresh": str(refresh),
             }, status=status.HTTP_201_CREATED)
 
-        print("REGISTRATION FAILED:", serializer.errors)  # log the errors
+        print("REGISTRATION FAILED:", serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # -------------------------------
@@ -142,6 +145,7 @@ class TransactionView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 # -------------------------------
 # Organization View
 # -------------------------------
@@ -155,3 +159,65 @@ class OrganizationView(APIView):
             org = serializer.save()
             return Response(OrganizationSerializer(org).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# -------------------------------
+# ChatBot View
+# -------------------------------
+class ChatBotView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        prompt = request.data.get("prompt")
+        user_role = getattr(request.user, "role", "member")
+
+        if not prompt:
+            return Response({"error": "Prompt is required"}, status=400)
+
+        response = chat_with_gpt(prompt, user_role=user_role)
+        return Response({"response": response})
+
+# -------------------------------
+# Update Position View
+# -------------------------------
+class UpdateUserPositionView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user_id = request.data.get("user_id")
+        position = request.data.get("position")
+
+        if not user_id or not position:
+            return Response({"error": "Missing user_id or position"}, status=400)
+
+        try:
+            user = get_object_or_404(CustomUser, user_id=user_id)
+            user.position = position
+            user.save()
+            return Response({"message": "Position updated successfully"}, status=200)
+        except CustomUser.DoesNotExist:
+            return Response({"error": "User not found"}, status=404)
+
+
+# -------------------------------
+# Update Org Category View
+# -------------------------------
+class UpdateOrgCategoryView(APIView):
+    def patch(self, request, pk):
+        try:
+            org = Organization.objects.get(pk=pk)
+        except Organization.DoesNotExist:
+            return Response({"error": "Organization not found"}, status=404)
+
+        category = request.data.get("category")
+        if category:
+            org.category = category
+            org.save()
+            return Response({"message": "Category updated"}, status=200)
+        return Response({"error": "Category is required"}, status=400)
+
+# -------------------------------
+# Colleges View
+# -------------------------------
+class CollegeListView(ListAPIView):
+    queryset = College.objects.all().order_by('name')
+    serializer_class = CollegeSerializer

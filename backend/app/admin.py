@@ -2,7 +2,7 @@
 #Without it, users appear in database but not in admin panel and managing users in admin isn't possible
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, Campaign, Donation, Organization, OrganizationMember, Transaction
+from .models import CustomUser, Campaign, Donation, Organization, OrganizationMember, Transaction, College
 
 # Dynamically show all fields for a model in list_display
 def all_fields(model):
@@ -13,7 +13,7 @@ class CustomUserAdmin(UserAdmin):
     list_display = all_fields(CustomUser)
     list_filter = ('role', 'is_staff', 'is_superuser')
     search_fields = ('email', 'first_name', 'last_name')
-    ordering = ('email',)
+    ordering = ('user_id',)
 
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
@@ -44,9 +44,15 @@ class OrganizationAdmin(admin.ModelAdmin):
 class TransactionAdmin(admin.ModelAdmin):
     list_display = all_fields(Transaction)
 
+class CollegeAdmin(admin.ModelAdmin):
+    list_display = all_fields(College)
+    list_filter = ('state', 'city')  # filter sidebar
+    search_fields = ('name', 'city', 'state')  #search box
+    ordering = ('name',)  # default sorting
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Campaign, CampaignAdmin)
 admin.site.register(Donation, DonationAdmin)
 admin.site.register(Organization, OrganizationAdmin)
 admin.site.register(OrganizationMember)  # Still basic
 admin.site.register(Transaction, TransactionAdmin)
+admin.site.register(College, CollegeAdmin)

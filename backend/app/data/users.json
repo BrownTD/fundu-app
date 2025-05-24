@@ -1,0 +1,142 @@
+[
+  {
+    "first_name": "Morgan",
+    "last_name": "Jones",
+    "email": "morgan.jones0@example.com",
+    "password": "password123",
+    "role": "donor"
+  },
+  {
+    "first_name": "Cameron",
+    "last_name": "Garcia",
+    "email": "cameron.garcia1@example.com",
+    "password": "password123",
+    "role": "donor"
+  },
+  {
+    "first_name": "Riley",
+    "last_name": "Jones",
+    "email": "riley.jones2@example.com",
+    "password": "password123",
+    "role": "donor"
+  },
+  {
+    "first_name": "Drew",
+    "last_name": "Lee",
+    "email": "drew.lee3@example.com",
+    "password": "password123",
+    "role": "donor"
+  },
+  {
+    "first_name": "Casey",
+    "last_name": "Lee",
+    "email": "casey.lee4@example.com",
+    "password": "password123",
+    "role": "donor"
+  },
+  {
+    "first_name": "Morgan",
+    "last_name": "Wilson",
+    "email": "morgan.wilson5@example.com",
+    "password": "password123",
+    "role": "donor"
+  },
+  {
+    "first_name": "Reese",
+    "last_name": "Lee",
+    "email": "reese.lee6@example.com",
+    "password": "password123",
+    "role": "donor"
+  },
+  {
+    "first_name": "Riley",
+    "last_name": "Brown",
+    "email": "riley.brown7@example.com",
+    "password": "password123",
+    "role": "donor"
+  },
+  {
+    "first_name": "Alex",
+    "last_name": "Davis",
+    "email": "alex.davis8@example.com",
+    "password": "password123",
+    "role": "donor"
+  },
+  {
+    "first_name": "Jordan",
+    "last_name": "Miller",
+    "email": "jordan.miller9@example.com",
+    "password": "password123",
+    "role": "donor"
+  },
+  {
+    "first_name": "Drew",
+    "last_name": "Smith",
+    "email": "drew.smith10@example.com",
+    "password": "password123",
+    "role": "donor"
+  },
+  {
+    "first_name": "Reese",
+    "last_name": "Jones",
+    "email": "reese.jones11@example.com",
+    "password": "password123",
+    "role": "donor"
+  },
+  {
+    "first_name": "Reese",
+    "last_name": "Miller",
+    "email": "reese.miller12@example.com",
+    "password": "password123",
+    "role": "donor"
+  },
+  {
+    "first_name": "Skyler",
+    "last_name": "Smith",
+    "email": "skyler.smith13@example.com",
+    "password": "password123",
+    "role": "donor"
+  },
+  {
+    "first_name": "Cameron",
+    "last_name": "Johnson",
+    "email": "cameron.johnson14@example.com",
+    "password": "password123",
+    "role": "donor"
+  },
+  {
+    "first_name": "Alex",
+    "last_name": "Davis",
+    "email": "alex.davis15@example.com",
+    "password": "password123",
+    "role": "donor"
+  },
+  {
+    "first_name": "Casey",
+    "last_name": "Brown",
+    "email": "casey.brown16@example.com",
+    "password": "password123",
+    "role": "donor"
+  },
+  {
+    "first_name": "Alex",
+    "last_name": "Johnson",
+    "email": "alex.johnson17@example.com",
+    "password": "password123",
+    "role": "donor"
+  },
+  {
+    "first_name": "Cameron",
+    "last_name": "Wilson",
+    "email": "cameron.wilson18@example.com",
+    "password": "password123",
+    "role": "donor"
+  },
+  {
+    "first_name": "Reese",
+    "last_name": "Garcia",
+    "email": "reese.garcia19@example.com",
+    "password": "password123",
+    "role": "donor"
+  }
+]

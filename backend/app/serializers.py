@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
-from .models import CustomUser, Campaign, Donation, Transaction, Organization
+from .models import CustomUser, Campaign, Donation, Transaction, Organization, College
 
 # --------------------------------------------
 # USER SERIALIZER — Handles registration logic
@@ -8,7 +8,7 @@ from .models import CustomUser, Campaign, Donation, Transaction, Organization
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['user_id', 'email', 'password', 'first_name', 'last_name', 'role']
+        fields = ['user_id', 'email', 'password', 'first_name', 'last_name', 'role','position']
         extra_kwargs = {
             'password': {'write_only': True}  # Prevent password from being returned in API responses
         }
@@ -51,9 +51,16 @@ class TransactionSerializer(serializers.ModelSerializer):
         model = Transaction
         fields = '__all__'
 # -----------------------------------------------------
-# ORGANIZATIOn SERIALIZER — Converts Organization to JSON
+# ORGANIZATION SERIALIZER — Converts Organization to JSON
 # -----------------------------------------------------
 class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization
         fields = '__all__'  
+# -----------------------------------------------------
+# COLLEGE SERIALIZER — Converts College to JSON
+# -----------------------------------------------------
+class CollegeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = College
+        fields = '__all__'
