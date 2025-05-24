@@ -1,11 +1,12 @@
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.contrib.auth import get_user_model
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
-from .models import Campaign, Donation, Transaction, Organization, CustomUser
+from .models import Campaign, Donation, Transaction, Organization, CustomUser, College
 from .chatbot.client import chat_with_gpt
 from django.shortcuts import get_object_or_404
 from .serializers import (
@@ -13,7 +14,8 @@ from .serializers import (
     CampaignSerializer,
     DonationSerializer,
     TransactionSerializer,
-    OrganizationSerializer
+    OrganizationSerializer,
+    CollegeSerializer,
 )
 import logging
 
@@ -194,3 +196,28 @@ class UpdateUserPositionView(APIView):
             return Response({"message": "Position updated successfully"}, status=200)
         except CustomUser.DoesNotExist:
             return Response({"error": "User not found"}, status=404)
+
+
+# -------------------------------
+# Update Org Category View
+# -------------------------------
+class UpdateOrgCategoryView(APIView):
+    def patch(self, request, pk):
+        try:
+            org = Organization.objects.get(pk=pk)
+        except Organization.DoesNotExist:
+            return Response({"error": "Organization not found"}, status=404)
+
+        category = request.data.get("category")
+        if category:
+            org.category = category
+            org.save()
+            return Response({"message": "Category updated"}, status=200)
+        return Response({"error": "Category is required"}, status=400)
+
+# -------------------------------
+# Colleges View
+# -------------------------------
+class CollegeListView(ListAPIView):
+    queryset = College.objects.all().order_by('name')
+    serializer_class = CollegeSerializer
