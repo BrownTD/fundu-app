@@ -11,7 +11,15 @@
 
 A mobile first crowdfunding platform designed to empower college campus organizations by connecting them with donors and simplifying fundraising efforts. The platform allows student organizations to create fundraiser campaigns, streamline donation collection and visualize campaign analytics.
 
-![FundU Logo](./docs/images/FundU.png)
+<div align="center" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+
+  <!-- Autoplaying video -->
+  <video src="./docs/images/welcome_screen.mp4" autoplay loop muted playsinline width="300"></video>
+
+  <!-- GIF preview -->
+  <img src="./docs/images/splashScreen.gif" alt="FundU Animation" width="300" />
+  
+</div>
 
 
 # Table of Contents
