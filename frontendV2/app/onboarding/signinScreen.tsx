@@ -155,7 +155,7 @@ const handleSignIn = async () => {
       {/* Sign Up Link */}
       <View style={styles.signUpContainer}>
         <Text style={styles.signUpText}>Don't have an account yet?</Text>
-        <TouchableOpacity onPress={() => router.push("/onboarding/managerpipe")}>
+        <TouchableOpacity onPress={() => router.push("/Welcome")}>
           <Text style={styles.signUpLink}> Sign up</Text>
         </TouchableOpacity>
       </View>
