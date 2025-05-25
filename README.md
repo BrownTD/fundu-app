@@ -14,10 +14,10 @@ A mobile first crowdfunding platform designed to empower college campus organiza
 <div align="center" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
 
   <!-- Autoplaying video -->
-  <video src="./docs/images/welcomeScreen.mp4" autoplay loop muted playsinline width="300"></video>
+   <img src="./docs/images/welcomeScreen_fixed.gif" alt="FundU Animation" width="300" />
 
   <!-- GIF preview -->
-  <img src="./docs/images/splashScreen.gif" alt="FundU Animation" width="300" />
+  <img src="./docs/images/splashScreen.gif" alt="FundU Animation" height="652" width="300" />
   
 </div>
 
