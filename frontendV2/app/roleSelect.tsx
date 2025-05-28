@@ -37,7 +37,6 @@ export default function RoleSelection() {
 
   return (
     <View style={styles.container}>
-      <Logo style={styles.logo} />
       <Text style={styles.title}>
         Are you an organization leader or an organization member?
       </Text>
@@ -86,14 +85,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 20,
     backgroundColor: "#fff",
-  },
-  logo: {
-    width: 210,
-    height: 210,
-    alignSelf: "center",
-    marginBottom: -10,
-    resizeMode: "contain",
-    marginTop: -50, // Adjusted for better spacing
   },
   title: {
     fontSize: 23,

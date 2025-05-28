@@ -8,23 +8,45 @@ import {
   LineChartProvider,
   LineChartYAxis,
 } from '@rainbow-me/animated-charts';
+import { useAuth } from '../context/authContext'; // adjust path
 
 const screenWidth = Dimensions.get('window').width * 0.85;
 
 export default function DonationsOverTimeChart() {
+  const { authUser } = useAuth(); // get logged-in user's info
   const [data, setData] = useState<number[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://www.funduhub.com/api/donations/?summary=true')
-      .then(res => res.json())
-      .then(json => {
-        const amounts = json.map((entry: any) => entry.amount);
-        setData(amounts);
-      })
-      .catch(err => console.error('Fetch error:', err))
-      .finally(() => setLoading(false));
-  }, []);
+    const fetchDonations = async () => {
+      if (!authUser?.organization?.id) return;
+
+      try {
+        const res = await fetch(
+          `https://www.funduhub.com/api/donations/?org=${authUser.organization.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${authUser.token}`, // optional: only if auth required
+            },
+          }
+        );
+
+        if (res.ok) {
+          const json = await res.json();
+          const amounts = json.map((entry: any) => entry.amount);
+          setData(amounts);
+        } else {
+          console.error('Failed to fetch donations:', res.status);
+        }
+      } catch (err) {
+        console.error('Fetch error:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDonations();
+  }, [authUser]);
 
   if (loading) {
     return (

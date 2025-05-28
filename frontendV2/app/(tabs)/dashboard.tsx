@@ -13,9 +13,11 @@ import DeepDiveContainer from 'components/DeepDiveContainer';
 import KPICard from 'components/KPICard';
 import ViewToggle from 'components/ViewToggle';
 import ProfileIcon from 'components/ProfileIcon';
+import { useAuth } from 'context/authContext'; 
 
 
 export default function DashboardScreen() {
+  const { authUser, loading } = useAuth();
   const router = useRouter();
   const [activeView, setActiveView] = useState<'quick' | 'deep'>('quick');
   const toggleAnim = useRef(new Animated.Value(0)).current;

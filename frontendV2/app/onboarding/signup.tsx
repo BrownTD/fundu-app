@@ -120,10 +120,6 @@ export default function SignUpScreen() {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="black" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Sign Up</Text>
         <View style={styles.placeholder} />
       </View>
 
@@ -211,7 +207,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   header: {
-    marginTop: 80,
+    marginTop: 90,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",

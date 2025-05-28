@@ -6,6 +6,8 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
+import BackButton from '../components/backButton';
+import { useRouter, useSegments } from 'expo-router';
 
 import { useColorScheme } from '../hooks/useColorScheme';
 import { RegistrationProvider } from '../context/registrationContext';
@@ -33,6 +35,11 @@ export default function RootLayout() {
     <AuthProvider>
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <RegistrationProvider>
+        <BackButton
+        style={{ position: 'absolute', top: 65, left: 20, zIndex: 9999 }}
+        hideOnRoutes={['index', 'welcome', '(tabs)','avatarSelect']} // optional enhancement
+      />
+
         <Stack screenOptions={{ headerShown: false }}>
 
           <Stack.Screen name="index" />
@@ -46,11 +53,11 @@ export default function RootLayout() {
           <Stack.Screen name="transitions/campaignSuccess"  />
           <Stack.Screen name="onboarding/organizationCode"  />
           <Stack.Screen name="onboarding/signinScreen"  />
-          <Stack.Screen name="onboarding/memberpipe"/>
           <Stack.Screen name="payments/addCard"  />
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="+not-found" />
           <Stack.Screen name="profileDetails" options={{ animation: 'slide_from_bottom',  }} />
+          <Stack.Screen name="avatarSelect" options={{ animation: 'slide_from_bottom',  }} />
         </Stack>
       </RegistrationProvider>
 

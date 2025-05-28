@@ -21,7 +21,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }
 
         if (res.ok) {
           const user = await res.json();
-          setAuthUser(user);
+          setAuthUser({ ...user, token }); // include token here
         }
       } catch (err) {
         console.error("Error loading user:", err);

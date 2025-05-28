@@ -9,13 +9,14 @@ import {
   ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import * as ImagePicker from "expo-image-picker";
-
 import { useRouter } from "expo-router";
+import DefaultProfile from '../assets/avatars/avatardefault.svg';
 
 export default function ProfileDetails() {
   const router = useRouter();
-  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const goToAvatarSelect = () => {
+  router.push('/avatarSelect'); // update this path based on your route
+};
 
   // Example user data ( be fetched from Django)
   const [userData] = useState({
@@ -25,35 +26,6 @@ export default function ProfileDetails() {
     email: "example@gmail.com",
     campus: "UNC Charlotte",
   });
-
-  useEffect(() => {
-    // Request permission for image library
-    (async () => {
-      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== "granted") {
-        Alert.alert(
-          "Permission Required",
-          "We need permission to access your photos to update your profile picture."
-        );
-      }
-    })();
-  }, []);
-
-  const pickImage = async () => {
-    try {
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 4],
-        quality: 1,
-      });
-      if (!result.canceled && result.assets && result.assets.length > 0) {
-        setProfileImage(result.assets[0].uri);
-      }
-    } catch (error) {
-      console.log("Image picking error:", error);
-    }
-  };
 
   const handleBack = () => {
     // If using expo-router:
@@ -75,18 +47,13 @@ export default function ProfileDetails() {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {/* Profile Image Container */}
         <View style={styles.profileContainer}>
-          <Image
-            source={
-              profileImage
-                ? { uri: profileImage }
-                : require("../assets/images/profileImage.png") // or any fallback image
-            }
-            style={styles.profileImage}
-          />
+          <View style={styles.profileContainer}>
+  <DefaultProfile  />
+</View>
           {/* Camera Button Overlay */}
-          <TouchableOpacity style={styles.cameraButton} onPress={pickImage}>
-            <Ionicons name="camera" size={20} color="#fff" />
-          </TouchableOpacity>
+          <TouchableOpacity style={styles.cameraButton} onPress={goToAvatarSelect}>
+  <Ionicons name="camera" size={20} color="#fff" />
+</TouchableOpacity>
         </View>
 
         {/* User Details */}
